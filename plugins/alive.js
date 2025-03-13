@@ -4,7 +4,7 @@ const { runtime } = require('../lib/functions');
 
 cmd({
     pattern: "alive",
-    alias: ["status", "runtime", "uptime"],
+    alias: ["av", "runtime", "uptime"],
     desc: "Check uptime and system status",
     category: "main",
     react: "📟",
