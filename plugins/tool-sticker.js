@@ -1,5 +1,3 @@
-// coded by jawadtech x
-
 const path = require("path");
 const { fetchGif, fetchImage, gifToSticker } = require('../lib/sticker-utils');
 const { tmpdir } = require("os");
@@ -61,7 +59,6 @@ cmd(
 
 
 const stylishText = (text) => {
-    // Yahan par aap apne pasand ka style apply kar sakte ho
     return text
         .replace(/a/g, '𝗔').replace(/b/g, '𝗕').replace(/c/g, '𝗖')
         .replace(/d/g, '𝗗').replace(/e/g, '𝗘').replace(/f/g, '𝗙')
@@ -95,8 +92,9 @@ cmd({
         if (!args.length) return reply("*Please provide text!*");
 
         const text = args.join(" ");
-        const styledText = stylishText(text); // Stylish text function ko call kiya
+        const styledText = stylishText(text);
 
+        // API call with proper URL encoding
         const gifBuffer = await fetchGif(`https://api.nexoracle.com/image-creating/attp?apikey=2f9b02060a600d6c88&text=${encodeURIComponent(styledText)}`);
         const stickerBuffer = await gifToSticker(gifBuffer);
 
