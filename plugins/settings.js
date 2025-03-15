@@ -317,6 +317,10 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     if (!newPrefix) return reply("*🛠 Example: .prefix !*");
 
     config.PREFIX = newPrefix;
+
+    // Save the prefix to a config file (Optional: Uncomment if using JSON storage)
+    fs.writeFileSync("./config.json", JSON.stringify(config, null, 2));
+
     return reply(`*✅ Bot prefix is now changed to: ${newPrefix}*`);
 });
 
@@ -328,9 +332,9 @@ conn.on("chat-update", async (mek) => {
         const currentPrefix = config.PREFIX || "."; // Default prefix
 
         if (msg.startsWith(currentPrefix)) {
-            // Extract command and process it as usual
             const command = msg.slice(currentPrefix.length).trim().split(" ")[0];
             // Your existing command handler logic here
+            console.log(`Command Detected: ${command}`);
         }
     } catch (err) {
         console.error("Error in PREFIX system:", err);
