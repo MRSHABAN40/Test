@@ -1,4 +1,3 @@
-//---------------------------------------------------------------------------
 const { cmd, commands } = require('../command');
 const config = require('../config');
 const prefix = config.PREFIX;
@@ -10,9 +9,9 @@ const path = require('path');
 let antilinkAction = "off"; // Default state
 let warnCount = {}; // Track warnings per user
 
-//--------------------------------------------
-//  AUTO-TYPING COMMANDS
-//--------------------------------------------
+
+//  AUTO-TYPING
+
 cmd({
     pattern: "auto_typing",
     alias: ["faketyping"],
@@ -33,5 +32,55 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
         return reply("fake_typing feature is now disabled.");
     } else {
         return reply(`*🫟 Example: . Auto_Typing On*`);
+    }
+});
+
+// Always Online 
+
+cmd({
+    pattern: "always_online",
+    alias: ["alwaysonline"],
+    desc: "enable or disable auto-reply.",
+    category: "settings",
+    filename: __filename
+},    
+async (conn, mek, m, { from, args, isOwner, reply }) => {
+    if (!isOwner) return reply("*📛 ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!*");
+
+    const status = args[0]?.toLowerCase();
+    // Check the argument for enabling or disabling the anticall feature
+    if (args[0] === "on") {
+        config.ALWAYS_ONLINE = "true";
+        return reply("*always_online  is now enabled.*");
+    } else if (args[0] === "off") {
+        config.ALWAYS_ONLINE = "false";
+        return reply("always_online feature is now disabled.");
+    } else {
+        return reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: . ᴀʟᴡᴀʏs_ᴏɴʟɪɴᴇ ᴏɴ*`);
+    }
+});
+
+// FAIK RECORDING
+
+cmd({
+    pattern: "auto_reacording",
+    alias: ["auto recording"],
+    desc: "enable or disable auto-reply.",
+    category: "settings",
+    filename: __filename
+},    
+async (conn, mek, m, { from, args, isOwner, reply }) => {
+    if (!isOwner) return reply("*📛 ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!*");
+
+    const status = args[0]?.toLowerCase();
+    // Check the argument for enabling or disabling the anticall feature
+    if (args[0] === "on") {
+        config.AUTO_RECORDING = "true";
+        return reply("*fake_reacording  is now enabled.*");
+    } else if (args[0] === "off") {
+        config.AUTO_RECORDING = "false";
+        return reply("fake_reacording feature is now disabled.");
+    } else {
+        return reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: . ғᴀᴋᴇ_ʀᴇᴀᴄᴏʀᴅɪɴɢ ᴏɴ*`);
     }
 });
