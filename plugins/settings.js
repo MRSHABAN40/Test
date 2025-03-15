@@ -220,24 +220,24 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 // CUSTOM_REACT
 cmd({
     pattern: "custom_react",
-    alias: ["heartreact","dillreact"],
-    desc: "Enable or disable the autoreact feature",
+    alias: ["heartreact", "dillreact"],
+    desc: "Enable or disable the auto-react feature",
     category: "settings",
     filename: __filename
 },    
 async (conn, mek, m, { from, args, isOwner, reply }) => {
-    if (!isOwner) return reply("*📛 ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!*");
+    if (!isOwner) return reply("*📛 Only the owner can use this command!*");
 
     const status = args[0]?.toLowerCase();
-    // Check the argument for enabling or disabling the anticall feature
-    if (args[0] === "on") {
-        config.CUSTOM_REACT = "true";
-        await reply("*heart feature is now enabled.*");
-    } else if (args[0] === "off") {
-        config.CUSTOM_REACT = "false";
-        await reply("heart_react feature is now disabled.");
+    
+    if (status === "on") {
+        config.CUSTOM_REACT = true;  // Boolean value
+        await reply("*✅ Heart React feature is now enabled.*");
+    } else if (status === "off") {
+        config.CUSTOM_REACT = false;  // Boolean value
+        await reply("*❌ Heart React feature is now disabled.*");
     } else {
-        await reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: .ʜᴇᴀʀᴛ_ʀᴇᴀᴄᴛ ᴏɴ*`);
+        await reply(`*🫟 Example: .heartreact on*`);
     }
 });
 // AUTO_STATUS_REPLY
@@ -300,43 +300,5 @@ conn.on("chat-update", async (mek) => {
         }
     } catch (err) {
         console.error("Error in ANTI_LINK:", err);
-    }
-});
-// PRIFIX 
-cmd({
-    pattern: "prefix",
-    alias: ["setprefix"],
-    desc: "Change the bot command prefix.",
-    category: "settings",
-    filename: __filename
-},    
-async (conn, mek, m, { from, args, isOwner, reply }) => {
-    if (!isOwner) return reply("*📛 Only the owner can use this command!*");
-
-    const newPrefix = args[0];
-    if (!newPrefix) return reply("*🛠 Example: .prefix !*");
-
-    config.PREFIX = newPrefix;
-
-    // Save the prefix to a config file (Optional: Uncomment if using JSON storage)
-    fs.writeFileSync("./config.json", JSON.stringify(config, null, 2));
-
-    return reply(`*✅ Bot prefix is now changed to: ${newPrefix}*`);
-});
-
-// Middleware to apply the new prefix dynamically
-conn.on("chat-update", async (mek) => {
-    try {
-        if (!mek.message) return;
-        const msg = mek.message.conversation || mek.message.text || "";
-        const currentPrefix = config.PREFIX || "."; // Default prefix
-
-        if (msg.startsWith(currentPrefix)) {
-            const command = msg.slice(currentPrefix.length).trim().split(" ")[0];
-            // Your existing command handler logic here
-            console.log(`Command Detected: ${command}`);
-        }
-    } catch (err) {
-        console.error("Error in PREFIX system:", err);
     }
 });
