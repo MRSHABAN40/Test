@@ -19,7 +19,7 @@ cmd({
 async (conn, mek, m, { from, quoted, reply }) => {
     try {
         // VIP Clean & Stylish Settings Message
-        let envSettings = `⚙️*SHABAN-MD SETTINGS*⚙️
+        let envSettings = `*⚙️ SHABAN-MD ENV ⚙️*
 _________________________________
 🛠 *Features & Status:*
 ✅ Status View: ${isEnabled(config.AUTO_STATUS_SEEN) ? "Enabled" : "Disabled"}
