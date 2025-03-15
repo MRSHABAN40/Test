@@ -152,30 +152,35 @@ cmd({
 }, 
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
     try {
-        let dec = `╭━━〔 *Download Menu* 〕━━┈⊷
-┃◈╭─────────────·๏
-┃◈┃• facebook
-┃◈┃• mediafire
-┃◈┃• tiktok
-┃◈┃• tiktok2
-┃◈┃• twitter
-┃◈┃• Insta
-┃◈┃• apk
-┃◈┃• img
-┃◈┃• pinterest 
-┃◈┃• spotify
-┃◈┃• play
-┃◈┃• play2
-┃◈┃• video
-┃◈┃• video2
-┃◈┃• mp3
-┃◈┃• mp4
-┃◈┃• song
-┃◈┃• gdrive
-┃◈┃• ssweb
-┃◈┃• tiks
-┃◈┃• fluxai
-┃◈└───────────┈⊷
+        let dec = `┏━❰ 📥 *DOWNLOAD MENU* 📥 ❱━┓
+
+┃ 🌀 *Facebook*  
+┃ 📂 *Mediafire*  
+┃ 🎥 *TikTok*  
+┃ 🔍 *TikTok Search*  
+┃ 📲 *TikTok 2*  
+┃ 🐦 *Twitter*  
+┃ 📸 *Instagram*  
+┃ 👻 *Snapchat*  
+┃ 💡 *Likee*  
+┃ 🎬 *Capcut*  
+┃ 📥 *APK*  
+┃ 🖼️ *IMG*  
+┃ 📌 *Pinterest*  
+┃ 🎶 *Spotify*  
+┃ 🔎 *YouTube Search*  
+┃ 🎧 *Play*  
+┃ 🎶 *Play2*  
+┃ 📹 *Video*  
+┃ 🎥 *Video2*  
+┃ 🎞️ *Video3*  
+┃ 🎥 *Video5*  
+┃ 🎼 *MP3*  
+┃ 🎥 *MP4*  
+┃ 📂 *Google Drive*  
+┃ 🌐 *Web Screenshot*  
+┃ 🎵 *Ringtone*  
+┃ 🧠 *FluxAI*  
 ╰──────────────┈⊷
 > ${config.DESCRIPTION}`;
 
