@@ -316,7 +316,7 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     const newPrefix = args[0];
     if (!newPrefix) return reply("*🛠 Example: .prefix !*");
 
-    config.BOT_PREFIX = newPrefix;
+    config.PREFIX = newPrefix;
     return reply(`*✅ Bot prefix is now changed to: ${newPrefix}*`);
 });
 
@@ -325,7 +325,7 @@ conn.on("chat-update", async (mek) => {
     try {
         if (!mek.message) return;
         const msg = mek.message.conversation || mek.message.text || "";
-        const currentPrefix = config.BOT_PREFIX || "."; // Default prefix
+        const currentPrefix = config.PREFIX || "."; // Default prefix
 
         if (msg.startsWith(currentPrefix)) {
             // Extract command and process it as usual
