@@ -13,41 +13,39 @@ cmd({
     alias: ["setting", "allvar"],
     desc: "Settings of bot",
     category: "menu",
-    react: "⤵️",
+    react: "⚙️",
     filename: __filename
 }, 
 async (conn, mek, m, { from, quoted, reply }) => {
     try {
-        // Define the settings message with the correct boolean checks
-        let envSettings = `╭━━━〔 *SHABAN-MD* 〕━━━┈⊷
-┃▸╭───────────
-┃▸┃๏ *ENV SETTINGS*
-┃▸└───────────···๏
-╰────────────────┈⊷
-╭━━〔 *Enabled Disabled* 〕━━┈⊷
-┇๏ *Status View:* ${isEnabled(config.AUTO_STATUS_SEEN) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Status Reply:* ${isEnabled(config.AUTO_STATUS_REPLY) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Auto Reply:* ${isEnabled(config.AUTO_REPLY) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Auto Sticker:* ${isEnabled(config.AUTO_STICKER) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Auto Voice:* ${isEnabled(config.AUTO_VOICE) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Custom Reacts:* ${isEnabled(config.CUSTOM_REACT) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Auto React:* ${isEnabled(config.AUTO_REACT) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Delete Links:* ${isEnabled(config.DELETE_LINKS) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Anti-Link:* ${isEnabled(config.ANTI_LINK) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Anti-Bad Words:* ${isEnabled(config.ANTI_BAD) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Auto Typing:* ${isEnabled(config.AUTO_TYPING) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Auto Recording:* ${isEnabled(config.AUTO_RECORDING) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Always Online:* ${isEnabled(config.ALWAYS_ONLINE) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Public Mode:* ${isEnabled(config.PUBLIC_MODE) ? "Enabled ✅" : "Disabled ❌"}
-┇๏ *Read Message:* ${isEnabled(config.READ_MESSAGE) ? "Enabled ✅" : "Disabled ❌"}
-╰━━━━━━━━━━━━──┈⊷
-> ${config.DESCRIPTION}`;
+        // VIP stylish settings message
+        let envSettings = `┏━━━✦ *『 𝗩𝗜𝗣 𝗕𝗢𝗧 𝗦𝗘𝗧𝗧𝗜𝗡𝗚𝗦 』* ✦━━━┓
+┃ 🚀 *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 SHABAN-MD*  
+┃————————————————————
+┃ 🔰 *Status View:* ${isEnabled(config.AUTO_STATUS_SEEN) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 💬 *Status Reply:* ${isEnabled(config.AUTO_STATUS_REPLY) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🤖 *Auto Reply:* ${isEnabled(config.AUTO_REPLY) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🖼 *Auto Sticker:* ${isEnabled(config.AUTO_STICKER) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🎙 *Auto Voice:* ${isEnabled(config.AUTO_VOICE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ ❤️ *Custom Reacts:* ${isEnabled(config.CUSTOM_REACT) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🔥 *Auto React:* ${isEnabled(config.AUTO_REACT) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🔗 *Delete Links:* ${isEnabled(config.DELETE_LINKS) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🚫 *Anti-Link:* ${isEnabled(config.ANTI_LINK) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ ⚠️ *Anti-Bad Words:* ${isEnabled(config.ANTI_BAD) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ ⌨️ *Auto Typing:* ${isEnabled(config.AUTO_TYPING) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🎥 *Auto Recording:* ${isEnabled(config.AUTO_RECORDING) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 🌐 *Always Online:* ${isEnabled(config.ALWAYS_ONLINE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 📢 *Public Mode:* ${isEnabled(config.PUBLIC_MODE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃ 👀 *Read Message:* ${isEnabled(config.READ_MESSAGE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
+┃————————————————————
+┃ 📝 *Description:* ${config.DESCRIPTION}
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛`;
 
         // Send message with an image
         await conn.sendMessage(
             from,
             {
-                image: { url: 'https://files.catbox.moe/yoqs4t.jpg' }, // Image URL
+                image: { url: 'https://files.catbox.moe/yoqs4t.jpg' }, // Stylish Image
                 caption: envSettings,
                 contextInfo: {
                     mentionedJid: [m.sender],
@@ -65,13 +63,13 @@ async (conn, mek, m, { from, quoted, reply }) => {
 
         // Send an audio file
         await conn.sendMessage(from, {
-            audio: { url: 'https://github.com/JawadYTX/KHAN-DATA/raw/refs/heads/main/autovoice/menunew.m4a' }, // Audio URL
+            audio: { url: 'https://github.com/MRSHABAN40/SHABAN-MD_DATABASE/raw/refs/heads/main/Menu_Data/env.mp3' }, // Audio File
             mimetype: 'audio/mp4',
             ptt: true
         }, { quoted: mek });
 
     } catch (error) {
         console.log(error);
-        reply(`Error: ${error.message}`);
+        reply(`❌ *Error:* ${error.message}`);
     }
 });
