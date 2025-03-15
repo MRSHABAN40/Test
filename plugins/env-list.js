@@ -18,28 +18,27 @@ cmd({
 }, 
 async (conn, mek, m, { from, quoted, reply }) => {
     try {
-        // VIP stylish settings message
-        let envSettings = `┏━━━✦ *『 𝗩𝗜𝗣 𝗕𝗢𝗧 𝗦𝗘𝗧𝗧𝗜𝗡𝗚𝗦 』* ✦━━━┓
-┃ 🚀 *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 SHABAN-MD*  
-┃————————————————————
-┃ 🔰 *Status View:* ${isEnabled(config.AUTO_STATUS_SEEN) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 💬 *Status Reply:* ${isEnabled(config.AUTO_STATUS_REPLY) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🤖 *Auto Reply:* ${isEnabled(config.AUTO_REPLY) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🖼 *Auto Sticker:* ${isEnabled(config.AUTO_STICKER) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🎙 *Auto Voice:* ${isEnabled(config.AUTO_VOICE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ ❤️ *Custom Reacts:* ${isEnabled(config.CUSTOM_REACT) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🔥 *Auto React:* ${isEnabled(config.AUTO_REACT) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🔗 *Delete Links:* ${isEnabled(config.DELETE_LINKS) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🚫 *Anti-Link:* ${isEnabled(config.ANTI_LINK) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ ⚠️ *Anti-Bad Words:* ${isEnabled(config.ANTI_BAD) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ ⌨️ *Auto Typing:* ${isEnabled(config.AUTO_TYPING) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🎥 *Auto Recording:* ${isEnabled(config.AUTO_RECORDING) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 🌐 *Always Online:* ${isEnabled(config.ALWAYS_ONLINE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 📢 *Public Mode:* ${isEnabled(config.PUBLIC_MODE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃ 👀 *Read Message:* ${isEnabled(config.READ_MESSAGE) ? "✅ 𝗘𝗡𝗔𝗕𝗟𝗘𝗗" : "❌ 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗"}
-┃————————————————————
-┃ 📝 *Description:* ${config.DESCRIPTION}
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛`;
+        // VIP Clean & Stylish Settings Message
+        let envSettings = `🔥 *SHABAN-MD BOT SETTINGS* 🔥
+
+🛠 *Features & Status:*
+✅ Status View: ${isEnabled(config.AUTO_STATUS_SEEN) ? "Enabled" : "Disabled"}
+💬 Status Reply: ${isEnabled(config.AUTO_STATUS_REPLY) ? "Enabled" : "Disabled"}
+🤖 Auto Reply: ${isEnabled(config.AUTO_REPLY) ? "Enabled" : "Disabled"}
+🖼 Auto Sticker: ${isEnabled(config.AUTO_STICKER) ? "Enabled" : "Disabled"}
+🎙 Auto Voice: ${isEnabled(config.AUTO_VOICE) ? "Enabled" : "Disabled"}
+❤️ Custom Reacts: ${isEnabled(config.CUSTOM_REACT) ? "Enabled" : "Disabled"}
+🔥 Auto React: ${isEnabled(config.AUTO_REACT) ? "Enabled" : "Disabled"}
+🔗 Delete Links: ${isEnabled(config.DELETE_LINKS) ? "Enabled" : "Disabled"}
+🚫 Anti-Link: ${isEnabled(config.ANTI_LINK) ? "Enabled" : "Disabled"}
+⚠️ Anti-Bad Words: ${isEnabled(config.ANTI_BAD) ? "Enabled" : "Disabled"}
+⌨️ Auto Typing: ${isEnabled(config.AUTO_TYPING) ? "Enabled" : "Disabled"}
+🎥 Auto Recording: ${isEnabled(config.AUTO_RECORDING) ? "Enabled" : "Disabled"}
+🌐 Always Online: ${isEnabled(config.ALWAYS_ONLINE) ? "Enabled" : "Disabled"}
+📢 Public Mode: ${isEnabled(config.PUBLIC_MODE) ? "Enabled" : "Disabled"}
+👀 Read Message: ${isEnabled(config.READ_MESSAGE) ? "Enabled" : "Disabled"}
+
+📝 *Description:* ${config.DESCRIPTION}`;
 
         // Send message with an image
         await conn.sendMessage(
