@@ -41,20 +41,20 @@
   
     "AUTO_VOICE": {
       "description": "Make it true if want automatic voice reply .",
-      "required": true,
-      "value": "true"
+      "required": false,
+      "value": "false"
     }, 
 
     "AUTO_REPLY": {
       "description": "Make it true if you want automatic reply.",
-      "required": true,
-      "value": "true"
+      "required": false,
+      "value": "false"
     }, 
 
     "AUTO_STICKER": {
       "description": "Make it true if you want automatic sticker.",
-      "required": true,
-      "value": "true"
+      "required": false,
+      "value": "false"
     }, 
 
 
@@ -91,7 +91,7 @@
 
     "OWNER_NUMBER": {
       "description": "put the owner number for bot.",
-      "required": false,
+      "required": true,
       "value": "923043788282"
 
     }, 
@@ -113,7 +113,7 @@
     "ANTI_BAD": {
       "description": "Make it true if you want bot auto delete bad words.",
       "required": true,
-      "value": "true"
+      "value": "false"
     }, 
 
      "DESCRIPTION": {
