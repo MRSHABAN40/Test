@@ -272,20 +272,20 @@ cmd({
     pattern: "hot",
     desc: "Displays a dynamic edit msg for fun.",
     category: "tools",
-    react: "💋",
+    react: "🔥",
     filename: __filename
 },
-async (conn, mek, m, { from }) => {
+async (conn, mek, m, { from, isGroup }) => {
     try {
-        let loadingMessage = await conn.sendMessage(from, { text: '💋' });
+        // ❌ Agar group mein use kare to warning de
+        if (isGroup) {
+            return await conn.sendMessage(from, { text: "⚠️ *Yeh command sirf inbox (private chat) ke liye hai!*" }, { quoted: mek });
+        }
+
+        let loadingMessage = await conn.sendMessage(from, { text: '🔥' });
 
         // 🔥 Emoji Animation 🔥
-        const emojiMessages = [
-            "🥵", "❤️", "💋", "😫", "🤤", 
-            "😋", "🥵", "🥶", "🙊", "😻", 
-            "🙈", "💋", "🫂", "🫀", "👅", 
-            "👄", "💋"
-        ];
+        const emojiMessages = ["😘", "🥵", "😽", "💋", "👄", "🫦", "👩‍❤️‍💋‍👩"];
 
         // Send emoji animations
         for (const emoji of emojiMessages) {
