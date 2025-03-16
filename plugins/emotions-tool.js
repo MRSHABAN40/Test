@@ -137,11 +137,24 @@ async (conn, mek, m, { from, reply, isGroup }) => {
             "😞", "😭", "💔", "😭", "😿"
         ];
 
-        let msg = await conn.sendMessage(from, { text: "😔" });
+        // Send initial emoji as loading message
+        const loadingMessage = await conn.sendMessage(from, { text: "😔" });
 
         for (const emoji of emojiMessages) {
             await new Promise(resolve => setTimeout(resolve, 400)); // Fast response
-            await conn.sendMessage(from, { text: emoji }, { edit: msg.key });
+            await conn.relayMessage(
+                from,
+                {
+                    protocolMessage: {
+                        key: loadingMessage.key,
+                        type: 14,
+                        editedMessage: {
+                            conversation: emoji,
+                        },
+                    },
+                },
+                {}
+            );
         }
 
     } catch (e) {
