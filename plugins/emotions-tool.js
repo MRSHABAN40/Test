@@ -316,8 +316,13 @@ cmd({
     react: "🗿",
     filename: __filename
 },
-async (conn, mek, m, { from, reply }) => {
+async (conn, mek, m, { from, reply, isGroup }) => {
     try {
+        // Check if command is used in a group
+        if (!isGroup) {
+            return reply("❌ *Error:* Yeh command sirf group mein kaam karti hai! Kisi member ko tag karke use kare.");
+        }
+
         let loadingMessage;
         for (let i = 0; i < 3; i++) { // Try sending message up to 3 times
             loadingMessage = await conn.sendMessage(from, { text: '🔄 Loading...' });
