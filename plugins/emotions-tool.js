@@ -275,35 +275,71 @@ cmd({
     react: "💋",
     filename: __filename
 },
-async (conn, mek, m, { from, reply }) => {
+async (conn, mek, m, { from, isGroup }) => {
     try {
-        const loadingMessage = await conn.sendMessage(from, { text: '💋' });
+        // Check if command is used in a group
+        if (!isGroup) {
+            return await conn.sendMessage(from, { 
+                text: "❌ *Error:* Yeh command sirf group mein kaam karti hai!" 
+            }, { quoted: mek });
+        }
+
+        let loadingMessage;
+        for (let i = 0; i < 3; i++) { // Try sending message up to 3 times
+            loadingMessage = await conn.sendMessage(from, { text: '💋' });
+            if (loadingMessage.key) break;
+            await new Promise(resolve => setTimeout(resolve, 500)); // Wait and retry
+        }
+
+        if (!loadingMessage?.key) {
+            return await conn.sendMessage(from, { text: "❌ *Error:* Message key not found, try again." }, { quoted: mek });
+        }
+
+        // 🔥 New Animated Emoji Messages 🔥
         const emojiMessages = [
-            "🥵", "❤️", "💋", "😫", "🤤", 
-            "😋", "🥵", "🥶", "🙊", "😻", 
-            "🙈", "💋", "🫂", "🫀", "👅", 
-            "👄", "💋"
+            "🔥🥵 *Too Hot to Handle!* 🥵🔥",
+            "💋 *Kisses Incoming!* 💋",
+            "❤️ *Full of Love & Passion!* ❤️",
+            "👅 *Feeling Naughty?* 👅",
+            "🤤 *Aag Laga Di!* 🤤",
+            "🥶 *Thoda Cool Bhi Raho!* 🥶"
         ];
 
+        // Send emoji animations with retry
         for (const line of emojiMessages) {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Delay for 1 second
-            await conn.relayMessage(
-                from,
-                {
-                    protocolMessage: {
-                        key: loadingMessage.key,
-                        type: 14,
-                        editedMessage: {
-                            conversation: line,
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Delay increased
+            let success = false;
+
+            for (let i = 0; i < 3; i++) { // Try editing up to 3 times
+                try {
+                    await conn.relayMessage(
+                        from,
+                        {
+                            protocolMessage: {
+                                key: loadingMessage.key,
+                                type: 14,
+                                editedMessage: {
+                                    conversation: line,
+                                },
+                            },
                         },
-                    },
-                },
-                {}
-            );
+                        {}
+                    );
+                    success = true;
+                    break;
+                } catch (error) {
+                    console.log(`Retry ${i + 1}: ${error.message}`);
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+            }
+
+            if (!success) {
+                return await conn.sendMessage(from, { text: "❌ *Error:* Message edit failed." }, { quoted: mek });
+            }
         }
     } catch (e) {
         console.log(e);
-        reply(`❌ *Error!* ${e.message}`);
+        return await conn.sendMessage(from, { text: `❌ *Error!* ${e.message}` }, { quoted: mek });
     }
 });
 
