@@ -190,6 +190,8 @@ async (conn, mek, m, { from, reply }) => {
     }
 });
 
+// moon
+
 cmd({
     pattern: "moon",
     desc: "Displays a dynamic edit msg for fun.",
@@ -197,8 +199,13 @@ cmd({
     react: "🌚",
     filename: __filename
 },
-async (conn, mek, m, { from, reply }) => {
+async (conn, mek, m, { from, reply, isGroup }) => {
     try {
+        // Yeh command sirf inbox/private chat mein kaam karegi
+        if (isGroup) {
+            return reply("❌ *Yeh command sirf private chat mein kaam karti hai!*");
+        }
+
         const loadingMessage = await conn.sendMessage(from, { text: '🌝' });
         const emojiMessages = [
             "🌗", "🌘", "🌑", "🌒", "🌓", "🌔",
@@ -210,7 +217,7 @@ async (conn, mek, m, { from, reply }) => {
         ];
 
         for (const line of emojiMessages) {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Delay for 1 second
+            await new Promise(resolve => setTimeout(resolve, 500)); // Speed fast kar di (500ms delay)
             await conn.relayMessage(
                 from,
                 {
