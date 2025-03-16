@@ -33,10 +33,9 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 ➤ 🔄 Convertmenu
 ➤ 🎉 Funmenu
 ➤ ⬇️ Dlmenu
-➤ 📝 Listcmd
+➤ 📝 List
 ➤ 🗂 Mainmenu
 ➤ 👥 Groupmenu
-➤ 🌐 Allmenu
 ➤ 👑 Ownermenu
 ➤ 🧩 Othermenu
 ➤ 💬 Reactions
@@ -75,45 +74,50 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
     }
 });
 
+// reaction Menu
+
 cmd({
     pattern: "reactions",
-    desc: "Shows the reaction commands",
-    category: "menu",
+    desc: "✨ 𝐒𝐡𝐨𝐰𝐬 𝐭𝐡𝐞 𝐫𝐞𝐚𝐜𝐭𝐢𝐨𝐧 𝐜𝐨𝐦𝐦𝐚𝐧𝐝𝐬 ✨",
+    category: "🎭 𝙈𝙚𝙣𝙪",
     react: "💫",
     filename: __filename
 }, 
 async (conn, mek, m, { from, quoted, reply }) => {
     try {
-        let dec = `╭━━〔 *Reactions Menu* 〕━━┈⊷
-┃◈╭─────────────·๏
-┃◈┃• bully @tag
-┃◈┃• cuddle @tag
-┃◈┃• cry @tag
-┃◈┃• hug @tag
-┃◈┃• awoo @tag
-┃◈┃• kiss @tag
-┃◈┃• lick @tag
-┃◈┃• pat @tag
-┃◈┃• smug @tag
-┃◈┃• bonk @tag
-┃◈┃• yeet @tag
-┃◈┃• blush @tag
-┃◈┃• smile @tag
-┃◈┃• wave @tag
-┃◈┃• highfive @tag
-┃◈┃• handhold @tag
-┃◈┃• nom @tag
-┃◈┃• bite @tag
-┃◈┃• glomp @tag
-┃◈┃• slap @tag
-┃◈┃• kill @tag
-┃◈┃• happy @tag
-┃◈┃• wink @tag
-┃◈┃• poke @tag
-┃◈┃• dance @tag
-┃◈┃• cringe @tag
-┃◈└───────────┈⊷
-╰──────────────┈⊷
+        let dec = `╔══════════════════╗
+      *🌟 𝑹𝒆𝒂𝒄𝒕𝒊𝒐𝒏𝒔 𝑴𝒆𝒏𝒖 🌟*
+  ╚══════════════════╝
+
+╭──❍ *𝐀𝐜𝐭𝐢𝐨𝐧𝐬:* ❍──╮
+┃ ◈ 💢 *𝑩𝒖𝒍𝒍𝒚* @tag  
+┃ ◈ 🤗 *𝑪𝒖𝒅𝒅𝒍𝒆* @tag  
+┃ ◈ 😢 *𝑪𝒓𝒚* @tag  
+┃ ◈ 🤗 *𝑯𝒖𝒈* @tag  
+┃ ◈ 🐺 *𝑨𝒘𝒐𝒐* @tag  
+┃ ◈ 😘 *𝑲𝒊𝒔𝒔* @tag  
+┃ ◈ 😋 *𝑳𝒊𝒄𝒌* @tag  
+┃ ◈ 👋 *𝑷𝒂𝒕* @tag  
+┃ ◈ 😏 *𝑺𝒎𝒖𝒈* @tag  
+┃ ◈ 🔨 *𝑩𝒐𝒏𝒌* @tag  
+┃ ◈ 🚀 *𝒀𝒆𝒆𝒕* @tag  
+┃ ◈ 😊 *𝑩𝒍𝒖𝒔𝒉* @tag  
+┃ ◈ 😁 *𝑺𝒎𝒊𝒍𝒆* @tag  
+┃ ◈ 👋 *𝑾𝒂𝒗𝒆* @tag  
+┃ ◈ 🙌 *𝑯𝒊𝒈𝒉𝒇𝒊𝒗𝒆* @tag  
+┃ ◈ 🤝 *𝑯𝒂𝒏𝒅𝒉𝒐𝒍𝒅* @tag  
+┃ ◈ 🍽 *𝑵𝒐𝒎* @tag  
+┃ ◈ 🦷 *𝑩𝒊𝒕𝒆* @tag  
+┃ ◈ 🤗 *𝑮𝒍𝒐𝒎𝒑* @tag  
+┃ ◈ 👋 *𝑺𝒍𝒂𝒑* @tag  
+┃ ◈ 🔪 *𝑲𝒊𝒍𝒍* @tag  
+┃ ◈ 😄 *𝑯𝒂𝒑𝒑𝒚* @tag  
+┃ ◈ 😉 *𝑾𝒊𝒏𝒌* @tag  
+┃ ◈ 👉 *𝑷𝒐𝒌𝒆* @tag  
+┃ ◈ 💃 *𝑫𝒂𝒏𝒄𝒆* @tag  
+┃ ◈ 😬 *𝑪𝒓𝒊𝒏𝒈𝒆* @tag  
+╰───────────✧
+
 > ${config.DESCRIPTION}`;
 
         await conn.sendMessage(
@@ -167,7 +171,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 ┃ 🖼️ *IMG*  
 ┃ 📌 *Pinterest*  
 ┃ 🎶 *Spotify*  
-┃ 🔎 *YouTube Search*  
+┃ 🔎 *YTS*  
 ┃ 🎧 *Play*  
 ┃ 🎶 *Play2*  
 ┃ 📹 *Video*  
@@ -179,7 +183,8 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 ┃ 📂 *Google Drive*  
 ┃ 🌐 *Web Screenshot*  
 ┃ 🎵 *Ringtone*  
-┃ 🧠 *FluxAI*  
+┃ 🧠 *FluxAI* 
+
 ╰──────────────┈⊷
 > ${config.DESCRIPTION}`;
 
@@ -212,53 +217,50 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 
 cmd({
     pattern: "groupmenu",
-    desc: "menu the bot",
-    category: "menu",
+    desc: "📜 𝐌𝐞𝐧𝐮 𝐭𝐡𝐞 𝐁𝐨𝐭",
+    category: "📂 𝙈𝙚𝙣𝙪",
     react: "⤵️",
     filename: __filename
 }, 
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
-    try
-       {
-        let dec = `╭━━〔 *Group Menu* 〕━━┈⊷
-┃◈╭─────────────·๏
-┃◈┃• grouplink
-┃◈┃• kickall
-┃◈┃• kickall2
-┃◈┃• kickall3
-┃◈┃• add
-┃◈┃• remove
-┃◈┃• kick
-┃◈┃• promote 
-┃◈┃• demote
-┃◈┃• dismiss 
-┃◈┃• revoke
-┃◈┃• setgoodbye
-┃◈┃• setwelcome
-┃◈┃• delete 
-┃◈┃• getpic
-┃◈┃• ginfo
-┃◈┃• delete 
-┃◈┃• disappear on
-┃◈┃• disappear off
-┃◈┃• disappear 7D,24H
-┃◈┃• allreq
-┃◈┃• updategname
-┃◈┃• updategdesc
-┃◈┃• joinrequests
-┃◈┃• senddm
-┃◈┃• nikal
-┃◈┃• mute
-┃◈┃• unmute
-┃◈┃• lockgc
-┃◈┃• unlockgc
-┃◈┃• invite
-┃◈┃• tag
-┃◈┃• hidetag
-┃◈┃• tagall
-┃◈┃• tagadmins
-┃◈└───────────┈⊷
-╰──────────────┈⊷
+async (conn, mek, m, { from, quoted, reply }) => {
+    try {
+        let dec = `*🌟 𝐆𝐫𝐨𝐮𝐩 𝐌𝐞𝐧𝐮 🌟*
+
+💠 *grouplink*
+💠 *kickall*
+💠 *kickall2*
+💠 *kickall3*
+💠 *add*
+💠 *remove*
+💠 *kick*
+💠 *promote*
+💠 *demote*
+💠 *dismiss*
+💠 *revoke*
+💠 *setgoodbye*
+💠 *setwelcome*
+💠 *delete*
+💠 *getpic*
+💠 *ginfo*
+💠 *disappear on*
+💠 *disappear off*
+💠 *disappear 7D, 24H*
+💠 *allreq*
+💠 *updategname*
+💠 *updategdesc*
+💠 *joinrequests*
+💠 *senddm*
+💠 *nikal*
+💠 *mute*
+💠 *unmute*
+💠 *lockgc*
+💠 *unlockgc*
+💠 *invite*
+💠 *tag*
+💠 *hidetag*
+💠 *tagall*
+💠 *tagadmins*
+
 > ${config.DESCRIPTION}`;
 
         await conn.sendMessage(
@@ -295,41 +297,24 @@ cmd({
     react: "😎",
     filename: __filename
 }, 
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
+async (conn, mek, m, { from, quoted, reply }) => {
     try {
+        let dec = `𝗙𝘂𝗻 𝗠𝗲𝗻𝘂 😎\n
+        ➤ *shapar*  
+        ➤ *hack*  
+        ➤ *joke*  
+        ➤ *heart*  
+        ➤ *happy*  
+        ➤ *angry*  
+        ➤ *sad*  
+        ➤ *shy*  
+        ➤ *moon*  
+        ➤ *confused*  
+        ➤ *hot*  
+        ➤ *nikal*  
+        ➤ *joke*  
 
-        let dec = `╭━━〔 *Fun Menu* 〕━━┈⊷
-┃◈╭─────────────·๏
-┃◈┃• shapar
-┃◈┃• rate
-┃◈┃• insult
-┃◈┃• hack
-┃◈┃• ship
-┃◈┃• character
-┃◈┃• pickup 
-┃◈┃• joke
-┃◈┃• hrt
-┃◈┃• hpy
-┃◈┃• syd
-┃◈┃• anger
-┃◈┃• shy
-┃◈┃• kiss
-┃◈┃• mon
-┃◈┃• cunfuzed
-┃◈┃• setpp
-┃◈┃• hand
-┃◈┃• nikal
-┃◈┃• hold
-┃◈┃• hug
-┃◈┃• nikal
-┃◈┃• hifi
-┃◈┃• poke
-┃◈┃• joke
-┃◈┃• pickupline
-┃◈┃• character
-┃◈└───────────┈⊷
-╰──────────────┈⊷
-> ${config.DESCRIPTION}`;
+        _${config.DESCRIPTION}_`;
 
         await conn.sendMessage(
             from,
@@ -339,12 +324,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
                 contextInfo: {
                     mentionedJid: [m.sender],
                     forwardingScore: 999,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363358310754973@newsletter',
-                        newsletterName: 'SʜᴀʙᴀɴMᴅ',
-                        serverMessageId: 143
-                    }
+                    isForwarded: true
                 }
             },
             { quoted: mek }
@@ -385,7 +365,6 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 ┃◈┃• srepo
 ┃◈┃• wikipedia
 ┃◈┃• githubstalk
-┃◈┃• yts
 ┃◈└───────────┈⊷
 ╰──────────────┈⊷
 > ${config.DESCRIPTION}`;
