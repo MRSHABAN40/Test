@@ -316,11 +316,13 @@ cmd({
     react: "🗿",
     filename: __filename
 },
-async (conn, mek, m, { from, reply, isGroup }) => {
+async (conn, mek, m, { from, isGroup }) => {
     try {
         // Check if command is used in a group
         if (!isGroup) {
-            return reply("❌ *Error:* Yeh command sirf group mein kaam karti hai! Kisi member ko tag karke use kare.");
+            return await conn.sendMessage(from, { 
+                text: "❌ *Error:* Yeh command sirf group mein kaam karti hai! Kisi member ko tag karke use kare."
+            }, { quoted: mek });
         }
 
         let loadingMessage;
@@ -331,7 +333,7 @@ async (conn, mek, m, { from, reply, isGroup }) => {
         }
 
         if (!loadingMessage?.key) {
-            return reply("❌ *Error:* Message key not found, try again.");
+            return await conn.sendMessage(from, { text: "❌ *Error:* Message key not found, try again." }, { quoted: mek });
         }
 
         // 🔥 New ASCII Art Messages 🔥
@@ -371,10 +373,12 @@ async (conn, mek, m, { from, reply, isGroup }) => {
                 }
             }
 
-            if (!success) reply("❌ *Error:* Message edit failed.");
+            if (!success) {
+                return await conn.sendMessage(from, { text: "❌ *Error:* Message edit failed." }, { quoted: mek });
+            }
         }
     } catch (e) {
         console.log(e);
-        reply(`❌ *Error!* ${e.message}`);
+        return await conn.sendMessage(from, { text: `❌ *Error!* ${e.message}` }, { quoted: mek });
     }
 });
