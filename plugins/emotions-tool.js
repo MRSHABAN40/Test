@@ -231,6 +231,8 @@ async (conn, mek, m, { from, reply }) => {
     }
 });
 
+// confused
+
 cmd({
     pattern: "confused",
     desc: "Displays a dynamic edit msg for fun.",
@@ -238,16 +240,21 @@ cmd({
     react: "🤔",
     filename: __filename
 },
-async (conn, mek, m, { from, reply }) => {
+async (conn, mek, m, { from, isGroup }) => {
     try {
-        const loadingMessage = await conn.sendMessage(from, { text: '🤔' });
-        const emojiMessages = [
-            "😕", "😟", "😵", "🤔", "😖", 
-            "😲", "😦", "🤷", "🤷‍♂️", "🤷‍♀️"
-        ];
+        // ❌ Agar group mein use kare to warning de
+        if (isGroup) {
+            return await conn.sendMessage(from, { text: "⚠️ *Yeh command sirf inbox (private chat) ke liye hai!*" }, { quoted: mek });
+        }
 
-        for (const line of emojiMessages) {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Delay for 1 second
+        let loadingMessage = await conn.sendMessage(from, { text: '🤔' });
+
+        // 🤔 Emoji Animation 🤔
+        const emojiMessages = ["🤔", "😬", "🥴", "😒", "☹️", "😵", "😟"];
+
+        // Send emoji animations
+        for (const emoji of emojiMessages) {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Delay 1 second
             await conn.relayMessage(
                 from,
                 {
@@ -255,7 +262,7 @@ async (conn, mek, m, { from, reply }) => {
                         key: loadingMessage.key,
                         type: 14,
                         editedMessage: {
-                            conversation: line,
+                            conversation: emoji,
                         },
                     },
                 },
@@ -264,10 +271,12 @@ async (conn, mek, m, { from, reply }) => {
         }
     } catch (e) {
         console.log(e);
-        reply(`❌ *Error!* ${e.message}`);
+        return await conn.sendMessage(from, { text: `❌ *Error!* ${e.message}` }, { quoted: mek });
     }
 });
+
 // Hot
+
 cmd({
     pattern: "hot",
     desc: "Displays a dynamic edit msg for fun.",
