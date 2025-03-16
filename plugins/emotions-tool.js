@@ -307,6 +307,8 @@ async (conn, mek, m, { from, reply }) => {
     }
 });
 
+// Nikal
+
 cmd({
     pattern: "nikal",
     desc: "Displays a dynamic edit msg for fun.",
@@ -318,7 +320,7 @@ async (conn, mek, m, { from, reply }) => {
     try {
         let loadingMessage;
         for (let i = 0; i < 3; i++) { // Try sending message up to 3 times
-            loadingMessage = await conn.sendMessage(from, { text: 'SHABAN-MD' });
+            loadingMessage = await conn.sendMessage(from, { text: '🔄 Loading...' });
             if (loadingMessage.key) break;
             await new Promise(resolve => setTimeout(resolve, 500)); // Wait and retry
         }
@@ -327,11 +329,13 @@ async (conn, mek, m, { from, reply }) => {
             return reply("❌ *Error:* Message key not found, try again.");
         }
 
-        // ASCII Art Messages
+        // 🔥 New ASCII Art Messages 🔥
         const asciiMessages = [
-            "⠀⠀⠀⣠⣶⡾⠏⠉⠙⠳⢦⡀...",
-            "⠀⠀⠀⣠⣶⡾⠏⠉⠙⠳⢦⡀...",
-            "⠀⠀⠀⣠⣶⡾⠏⠉⠙⠳⢦⡀..."
+            "🚀 *Nikal Pehli Fursat Mein!* 🚀",
+            "🔥 *Beta Mazak Ho Gaya?* 🔥",
+            "💨 *Udhar Se Nikal!* 💨",
+            "😆 *Ja Beta Ja...* 😆",
+            "👋 *Bye Bye Tata!* 👋"
         ];
 
         // Send ASCII animations with retry
