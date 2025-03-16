@@ -131,29 +131,19 @@ async (conn, mek, m, { from, reply, isGroup }) => {
             return reply("❌ *This command only works in private chat!*");
         }
 
-        const loadingMessage = await conn.sendMessage(from, { text: '😔' });
         const emojiMessages = [
             "🥺", "😟", "😕", "😖", "😫", "🙁",
             "😩", "😥", "😓", "😪", "😢", "😔",
             "😞", "😭", "💔", "😭", "😿"
         ];
 
-        for (const line of emojiMessages) {
-            await new Promise(resolve => setTimeout(resolve, 500)); // Faster response time
-            await conn.relayMessage(
-                from,
-                {
-                    protocolMessage: {
-                        key: loadingMessage.key,
-                        type: 14,
-                        editedMessage: {
-                            conversation: line,
-                        },
-                    },
-                },
-                {}
-            );
+        let msg = await conn.sendMessage(from, { text: "😔" });
+
+        for (const emoji of emojiMessages) {
+            await new Promise(resolve => setTimeout(resolve, 400)); // Fast response
+            await conn.sendMessage(from, { text: emoji }, { edit: msg.key });
         }
+
     } catch (e) {
         console.log(e);
         reply(`❌ *Error!* ${e.message}`);
