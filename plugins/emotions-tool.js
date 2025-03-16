@@ -201,36 +201,33 @@ cmd({
 },
 async (conn, mek, m, { from, reply, isGroup }) => {
     try {
-        // Yeh command sirf inbox/private chat mein kaam karegi
+        // ✅ Command sirf inbox/private chat ke liye set
         if (isGroup) {
             return reply("❌ *Yeh command sirf private chat mein kaam karti hai!*");
         }
 
+        // ✅ Message send karne se pehle ensure karo ke async handling theek ho
         const loadingMessage = await conn.sendMessage(from, { text: '🌝' });
+
+        // ✅ Delay kam kar diya aur async execution ko optimize kiya
         const emojiMessages = [
             "🌗", "🌘", "🌑", "🌒", "🌓", "🌔",
             "🌕", "🌖", "🌗", "🌘", "🌑", "🌒",
             "🌓", "🌔", "🌕", "🌖", "🌗", "🌘",
             "🌑", "🌒", "🌓", "🌔", "🌕", "🌖",
             "🌗", "🌘", "🌑", "🌒", "🌓", "🌔",
-            "🌕", "🌖", "🌝🌚"
+            "🌕", "🌖", "🌝"
         ];
 
         for (const line of emojiMessages) {
-            await new Promise(resolve => setTimeout(resolve, 500)); // Speed fast kar di (500ms delay)
-            await conn.relayMessage(
-                from,
-                {
-                    protocolMessage: {
-                        key: loadingMessage.key,
-                        type: 14,
-                        editedMessage: {
-                            conversation: line,
-                        },
-                    },
+            await new Promise(resolve => setTimeout(resolve, 300)); // ✅ 300ms delay for faster response
+            await conn.relayMessage(from, {
+                protocolMessage: {
+                    key: loadingMessage.key,
+                    type: 14,
+                    editedMessage: { conversation: line },
                 },
-                {}
-            );
+            }, {});
         }
     } catch (e) {
         console.log(e);
