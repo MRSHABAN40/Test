@@ -21,7 +21,9 @@ const {
     Browsers
   } = require('@whiskeysockets/baileys')
   
-  
+  conn.ws.on('CB:Status@broadcast', async (json) => {
+    console.log("🔄 New status update received!", json);
+});
   const l = console.log
   const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson } = require('./lib/functions')
   const { AntiDelDB, initializeAntiDeleteSettings, setAnti, getAnti, getAllAntiDeleteSettings, saveContact, loadMessage, getName, getChatSummary, saveGroupMetadata, getGroupMetadata, saveMessageCount, getInactiveGroupMembers, getGroupMembersMessageCount, saveMessage } = require('./data')
@@ -328,6 +330,42 @@ if (!isReact && senderNumber === botNumber) {
   }});
   
   });
+  
+  //status sender
+  
+  const cmd = require('your-command-handler');
+
+cmd({
+    pattern: "send",
+    desc: "Get and forward the latest status",
+    category: "utility",
+    react: "📢",
+    filename: __filename
+}, 
+async (conn, mek, m, { from, reply, sender }) => {
+    try {
+        const statusList = await conn.fetchStatus(sender); // Sender ke WhatsApp status ko fetch karega
+
+        if (!statusList || statusList.length === 0) {
+            return reply("❌ Tumhare paas koi active status nahi hai!");
+        }
+
+        for (const status of statusList) {
+            if (status.type === "image") {
+                await conn.sendMessage(from, { image: { url: status.mediaUrl }, caption: "*Forwarded Status*" }, { quoted: mek });
+            } else if (status.type === "video") {
+                await conn.sendMessage(from, { video: { url: status.mediaUrl }, caption: "*Forwarded Status*" }, { quoted: mek });
+            } else if (status.type === "text") {
+                await conn.sendMessage(from, { text: `*Forwarded Status:*\n\n${status.text}` }, { quoted: mek });
+            }
+        }
+
+    } catch (e) {
+        console.error(e);
+        reply("❌ Status retrieve karne me problem hui!");
+    }
+});
+
     //===================================================   
     conn.decodeJid = jid => {
       if (!jid) return jid;
