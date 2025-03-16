@@ -153,6 +153,8 @@ async (conn, mek, m, { from, reply }) => {
     }
 });
 
+// shy
+
 cmd({
     pattern: "shy",
     desc: "Displays a dynamic edit msg for fun.",
@@ -160,16 +162,18 @@ cmd({
     react: "🧐",
     filename: __filename
 },
-async (conn, mek, m, { from, reply }) => {
+async (conn, mek, m, { from, reply, isGroup }) => {
     try {
+        // Check if the command is used in a group
+        if (isGroup) {
+            return reply("❌ *This command only works in private chat!*");
+        }
+
         const loadingMessage = await conn.sendMessage(from, { text: '🧐' });
-        const emojiMessages = [
-            "😳", "😊", "😶", "🙈", "🙊",
-            "😳", "😊", "😶", "🙈", "🙊"
-        ];
+        const emojiMessages = ["😳", "😊", "😶", "🙈", "🙊", "😳", "😊", "😶", "🙈", "🙊"];
 
         for (const line of emojiMessages) {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Delay for 1 second
+            await new Promise(resolve => setTimeout(resolve, 500)); // Faster response time
             await conn.relayMessage(
                 from,
                 {
