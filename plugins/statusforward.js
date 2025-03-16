@@ -1,41 +1,35 @@
-const { getContentType } = require('@whiskeysockets/baileys');
+const { jidNormalizedUser } = require("@whiskeysockets/baileys");
 
-cmd({
-    pattern: "sendme",
-    desc: "Forwards the latest viewed status",
+module.exports = {
+    name: "sendme",
+    description: "Forward WhatsApp Status to your chat.",
+    command: ["sendme"],
     category: "utility",
-    react: "📢",
-    filename: __filename
-}, async (conn, mek, m, { from, quoted, reply }) => {
-    try {
-        // Check if status updates exist
-        const statusUpdates = conn.store.messages["status@broadcast"];
-        if (!statusUpdates || statusUpdates.length === 0) {
-            return reply("❌ No recent status found!");
-        }
+    async handler(m, { conn }) {
+        try {
+            const user = m.sender;
+            const statuses = await conn.fetchStatus(jidNormalizedUser("status@broadcast"));
 
-        // Loop through statuses and forward
-        for (const status of statusUpdates) {
-            if (status.message.imageMessage) {
-                await conn.sendMessage(from, { 
-                    image: status.message.imageMessage, 
-                    caption: "*📢 Forwarded Status*" 
-                }, { quoted: mek });
-            } else if (status.message.videoMessage) {
-                await conn.sendMessage(from, { 
-                    video: status.message.videoMessage, 
-                    caption: "*📢 Forwarded Status*" 
-                }, { quoted: mek });
-            } else if (status.message.conversation) {
-                await conn.sendMessage(from, { 
-                    text: `📢 *Forwarded Status:*\n\n${status.message.conversation}` 
-                }, { quoted: mek });
-            } else {
-                reply("⚠️ Unsupported status format!");
+            if (!statuses || statuses.length === 0) {
+                return m.reply("No new status updates found.");
             }
+
+            for (const status of statuses) {
+                const msgOptions = { quoted: m };
+                
+                if (status.message.imageMessage) {
+                    await conn.sendMessage(user, { image: status.message.imageMessage.url }, msgOptions);
+                } else if (status.message.videoMessage) {
+                    await conn.sendMessage(user, { video: status.message.videoMessage.url }, msgOptions);
+                } else if (status.message.conversation) {
+                    await conn.sendMessage(user, { text: status.message.conversation }, msgOptions);
+                }
+            }
+
+            m.reply("✅ Status forwarded successfully.");
+        } catch (error) {
+            console.error("Error in sendme command:", error);
+            m.reply("❌ Failed to fetch status.");
         }
-    } catch (e) {
-        console.log(e);
-        reply("⚠️ Error forwarding status!");
     }
-});
+};
