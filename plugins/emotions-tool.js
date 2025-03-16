@@ -85,12 +85,18 @@ cmd({
     react: "🤡",
     filename: __filename
 },
-async (conn, mek, m, { from, reply }) => {
+async (conn, mek, m, { from, reply, isGroup }) => {
     try {
-        const loadingMessage = await conn.sendMessage(from, { text: '👽' });
+        // Check if command is used in a group
+        if (isGroup) {
+            return reply("❌ This command can only be used in private chat.");
+        }
+
+        // Send initial loading message with emoji
+        const loadingMessage = await conn.sendMessage(from, { text: '😡' });
         const emojiMessages = [
-            "😡", "😠", "🤬", "😤", "😾", "😡",
-            "😠", "🤬", "😤", "😾"
+            "😡", "😠", "🤬", "😤", "😾", 
+            "😡", "😠", "🤬", "😤", "😾"
         ];
 
         for (const line of emojiMessages) {
