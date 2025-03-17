@@ -183,10 +183,6 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
         await reply("🎶 Downloading Audio... Please wait...");
 
         const yt = await ytsearch(q);
-        
-        // ✅ Debugging - Check if yt and results exist
-        console.log("🔍 YouTube Search Data:", JSON.stringify(yt, null, 2));
-
         if (!yt || !yt.results || yt.results.length === 0) {
             return reply("❌ No results found for your query.");
         }
@@ -196,7 +192,15 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
 
         console.log("🔗 API URL:", apiUrl); // Debugging: API URL
 
-        let response = await fetch(apiUrl);
+        // ✅ Fix: Adding Custom Headers
+        let response = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "application/json"
+            }
+        });
+
         if (!response.ok) {
             console.log("❌ API Response Error:", response.status, response.statusText);
             return reply(`❌ API Error: ${response.status} ${response.statusText}`);
