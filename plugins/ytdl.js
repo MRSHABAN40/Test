@@ -183,7 +183,13 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
         await reply("🎶 Downloading Audio... Please wait...");
 
         const yt = await ytsearch(q);
-        if (!yt || yt.results.length < 1) return reply("❌ No results found!");
+        
+        // ✅ Debugging - Check if yt and results exist
+        console.log("🔍 YouTube Search Data:", JSON.stringify(yt, null, 2));
+
+        if (!yt || !yt.results || yt.results.length === 0) {
+            return reply("❌ No results found for your query.");
+        }
 
         let yts = yt.results[0];  
         let apiUrl = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${encodeURIComponent(yts.url)}`;
@@ -197,7 +203,7 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
         }
 
         let data = await response.json();
-        console.log("📥 API Response Data:", JSON.stringify(data, null, 2)); // Full API response for debugging
+        console.log("📥 API Response Data:", JSON.stringify(data, null, 2)); // Debugging API response
 
         if (!data.status || !data.data || !data.data.download || !data.data.download.url) {
             return reply("❌ Failed to fetch the audio. Please try again later.");
