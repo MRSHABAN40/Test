@@ -145,11 +145,22 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
         // Thumbnail URL selection
         let thumbnailUrl = data.result.thumbnail[0]?.url || yts.thumbnail;
 
-        // Send song details with thumbnail
-        await conn.sendMessage(from, { 
-            image: { url: thumbnailUrl }, 
-            caption: ytmsg 
-        }, { quoted: mek });
+        // Generate GIF Thumbnail
+        let gifThumbnail = await getGifThumbnail(thumbnailUrl);
+        if (gifThumbnail) {
+            await conn.sendMessage(from, {
+                video: { url: gifThumbnail },
+                mimetype: "video/mp4",
+                caption: ytmsg,
+                gifPlayback: true
+            }, { quoted: mek });
+        } else {
+            // If GIF fails, send normal image
+            await conn.sendMessage(from, { 
+                image: { url: thumbnailUrl }, 
+                caption: ytmsg 
+            }, { quoted: mek });
+        }
 
         console.log("🎼 Sending audio from URL:", data.download.downloadUrl); 
 
