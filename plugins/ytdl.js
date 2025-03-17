@@ -101,8 +101,8 @@ cmd({
 // play Mp3
 
 cmd({ 
-    pattern: "test", 
-    alias: ["test2", "test3"], 
+    pattern: "play", 
+    alias: ["play2", "mp3"], 
     react: "🎶", 
     desc: "Download YouTube song",
     category: "main", 
@@ -113,21 +113,21 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
     try { 
         if (!q) return await reply("❌ Please provide a YouTube URL or song name.");
 
-        // Initial message: Downloading audio
+        // Initial message
         await reply("🎶 Downloading Audio... Please wait for *SHABAN-MD* user!");
 
         const yt = await ytsearch(q);
         if (yt.results.length < 1) return reply("❌ No results found!");
 
         let yts = yt.results[0];  
-        let apiUrl = `https://ditzdevs-ytdl-api.hf.space/api/ytmp3?url=${encodeURIComponent(yts.url)}`;
+        let apiUrl = `https://bandahealimaree-api-ytdl.hf.space/api/ytmp3?url=${encodeURIComponent(yts.url)}`;
 
-        console.log("🔗 API URL:", apiUrl); // Debugging: API URL
+        console.log("🔗 API URL:", apiUrl); // Debugging
 
         let response = await fetch(apiUrl);
         let data = await response.json();
 
-        console.log("📥 API Response:", data); // Debugging: Full API response
+        console.log("📥 API Response:", data); // Debugging
 
         if (!data.status || !data.download || !data.download.downloadUrl) {
             return reply("❌ Failed to fetch the audio. Please try again later.");
@@ -142,9 +142,12 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
 
 > *© Powered By Shaban-MD ♡*`;
 
+        // Thumbnail URL selection
+        let thumbnailUrl = data.result.thumbnail[0]?.url || yts.thumbnail;
+
         // Send song details with thumbnail
         await conn.sendMessage(from, { 
-            image: { url: yts.thumbnail }, 
+            image: { url: thumbnailUrl }, 
             caption: ytmsg 
         }, { quoted: mek });
 
@@ -161,72 +164,5 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
     } catch (e) {
         console.log("❌ Error:", e); 
         reply("❌ An error occurred. Please try again later.");
-    }
-});
-
-// Play2 Extra
-
-cmd({ 
-    pattern: "mp3", 
-    alias: ["play2", "play"], 
-    react: "🎶", 
-    desc: "Download YouTube song",
-    category: "main", 
-    use: '.song <Yt url or Name>', 
-    filename: __filename 
-}, 
-async (conn, mek, m, { from, prefix, quoted, q, reply }) => { 
-    try { 
-        if (!q) return await reply("❌ Please provide a YouTube URL or song name.");
-
-        // Initial message: Downloading audio
-        await reply("🎶 Downloading Audio... Please wait...");
-
-        const yt = await ytsearch(q);
-        
-        // ✅ Fix: Check if `yt.results` exists before using it
-        if (!yt || !yt.results || yt.results.length === 0) {
-            return reply("❌ No results found for your query.");
-        }
-
-        let yts = yt.results[0];  
-        let apiUrl = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${encodeURIComponent(yts.url)}`;
-
-        console.log("🔗 API URL:", apiUrl); // Debugging: API URL
-
-        // ✅ Fix: Adding Custom Headers for 403 error
-        let response = await fetch(apiUrl, {
-            method: "GET",
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-                "Accept": "application/json"
-            }
-        });
-
-        if (!response.ok) {
-            console.log("❌ API Response Error:", response.status, response.statusText);
-            return reply(`❌ API Error: ${response.status} ${response.statusText}`);
-        }
-
-        let data = await response.json();
-        console.log("📥 API Response Data:", JSON.stringify(data, null, 2)); // Debugging API response
-
-        if (!data.status || !data.data || !data.data.download || !data.data.download.url) {
-            return reply("❌ Failed to fetch the audio. Please try again later.");
-        }
-
-        console.log("🎼 Sending audio from URL:", data.data.download.url); 
-
-        // Send audio file as MP3
-        await conn.sendMessage(from, { 
-            audio: { url: data.data.download.url }, 
-            mimetype: "audio/mpeg" 
-        }, { quoted: mek });
-
-        console.log("✅ Audio sent successfully!");
-
-    } catch (e) {
-        console.log("❌ Error:", e.stack || e); 
-        reply(`❌ An unexpected error occurred:\n\`\`\`${e.message}\`\`\``);
     }
 });
