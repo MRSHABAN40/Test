@@ -1,24 +1,4 @@
-async function getGifThumbnail(thumbnailUrl) {
-    try {
-        let response = await axios.get(`https://api.dynaimage.com/gif?url=${encodeURIComponent(thumbnailUrl)}`, {
-            responseType: 'arraybuffer'
-        });
-        let gifPath = "./temp/animated_thumbnail.gif";
-
-        // Ensure temp folder exists
-        if (!fs.existsSync("./temp")) {
-            fs.mkdirSync("./temp");
-        }
-
-        fs.writeFileSync(gifPath, response.data);
-        return gifPath;
-    } catch (e) {
-        console.log("❌ GIF API Error:", e);
-        return null;
-    }
-}
 const {
-
   default: makeWASocket,
     useMultiFileAuthState,
     DisconnectReason,
