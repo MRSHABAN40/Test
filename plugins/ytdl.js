@@ -183,6 +183,8 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
         await reply("🎶 Downloading Audio... Please wait...");
 
         const yt = await ytsearch(q);
+        
+        // ✅ Fix: Check if `yt.results` exists before using it
         if (!yt || !yt.results || yt.results.length === 0) {
             return reply("❌ No results found for your query.");
         }
@@ -192,7 +194,7 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
 
         console.log("🔗 API URL:", apiUrl); // Debugging: API URL
 
-        // ✅ Fix: Adding Custom Headers
+        // ✅ Fix: Adding Custom Headers for 403 error
         let response = await fetch(apiUrl, {
             method: "GET",
             headers: {
