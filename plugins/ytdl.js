@@ -180,10 +180,10 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
         if (!q) return await reply("❌ Please provide a YouTube URL or song name.");
 
         // Initial message: Downloading audio
-        await reply("🎶 Downloading Audio... Please wait for *SHABAN-MD* user!");
+        await reply("🎶 Downloading Audio... Please wait...");
 
         const yt = await ytsearch(q);
-        if (yt.results.length < 1) return reply("❌ No results found!");
+        if (!yt || yt.results.length < 1) return reply("❌ No results found!");
 
         let yts = yt.results[0];  
         let apiUrl = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${encodeURIComponent(yts.url)}`;
@@ -191,47 +191,30 @@ async (conn, mek, m, { from, prefix, quoted, q, reply }) => {
         console.log("🔗 API URL:", apiUrl); // Debugging: API URL
 
         let response = await fetch(apiUrl);
-        let data = await response.json();
+        if (!response.ok) {
+            console.log("❌ API Response Error:", response.status, response.statusText);
+            return reply(`❌ API Error: ${response.status} ${response.statusText}`);
+        }
 
-        console.log("📥 API Response:", data); // Debugging: Full API response
+        let data = await response.json();
+        console.log("📥 API Response Data:", JSON.stringify(data, null, 2)); // Full API response for debugging
 
         if (!data.status || !data.data || !data.data.download || !data.data.download.url) {
             return reply("❌ Failed to fetch the audio. Please try again later.");
         }
 
-        let ytmsg = `🎶 *SHABAN-MD MUSIC DOWNLOADER* 🎶
-
-📀 *Title:* ${data.data.title}
-🎤 *Artist:* ${data.data.author}
-⏳ *Duration:* ${data.data.duration} sec
-📺 *Category:* ${data.data.category}
-👀 *Views:* ${data.data.views}
-👍 *Likes:* ${data.data.likes}
-💬 *Comments:* ${data.data.comments}
-🔗 *YouTube Link:* ${yts.url}
-🕒 *Expires In:* Unknown
-
-> *© Powered By Shaban-MD ♡*`;
-
-        // Send song details with thumbnail
-        await conn.sendMessage(from, { 
-            image: { url: data.data.image }, 
-            caption: ytmsg 
-        }, { quoted: mek });
-
         console.log("🎼 Sending audio from URL:", data.data.download.url); 
 
-        // Send audio file as document
+        // Send audio file as MP3
         await conn.sendMessage(from, { 
-            document: { url: data.data.download.url }, 
-            mimetype: "audio/mpeg",
-            fileName: `${data.data.download.filename}`
+            audio: { url: data.data.download.url }, 
+            mimetype: "audio/mpeg" 
         }, { quoted: mek });
 
         console.log("✅ Audio sent successfully!");
 
     } catch (e) {
-        console.log("❌ Error:", e); 
-        reply("❌ An error occurred. Please try again later.");
+        console.log("❌ Error:", e.stack || e); 
+        reply(`❌ An unexpected error occurred:\n\`\`\`${e.message}\`\`\``);
     }
 });
