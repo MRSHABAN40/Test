@@ -11,28 +11,13 @@ cmd({
   use: ".ss <link>",
   filename: __filename,
 }, 
-async (conn, mek, m, {
-  from, l, quoted, body, isCmd, command, args, q, isGroup, sender, 
-  senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, 
-  groupMetadata, groupName, participants, isItzcp, groupAdmins, 
-  isBotAdmins, isAdmins, reply 
-}) => {
+async (conn, mek, m, { from, q, reply }) => {
   if (!q) {
-    return reply("براہ کرم اسکرین شاٹ لینے کے لیے ایک لنک فراہم کریں۔");
+    return reply("❗ براہ کرم اسکرین شاٹ لینے کے لیے ایک لنک فراہم کریں۔");
   }
 
   try {
-    const response = await axios.get(`https://api.diioffc.web.id/api/tools/sstab?url=${encodeURIComponent(q)}`);
-    console.log(response.data); // API response check karne ke liye
-
-    const screenshotUrl = response.data.result;
-
-    if (!screenshotUrl) {
-        console.log("Screenshot URL not found in API response.");
-        return reply("اسکرین شاٹ کا URL نہیں ملا۔");
-    }
-
-    console.log("Screenshot URL:", screenshotUrl); // Confirm karte hain URL ko
+    const screenshotUrl = `https://bk9.fun/tools/screenshot?url=${encodeURIComponent(q)}`;
 
     const imageMessage = {
       image: { url: screenshotUrl },
@@ -41,17 +26,12 @@ async (conn, mek, m, {
         mentionedJid: [m.sender],
         forwardingScore: 999,
         isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363358310754973@newsletter',
-          newsletterName: "SʜᴀʙᴀɴMᴅ",
-          serverMessageId: 143,
-        },
       },
     };
 
     await conn.sendMessage(from, imageMessage, { quoted: m });
   } catch (error) {
     console.error("Error:", error);
-    reply("اسکرین شاٹ لینے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔");
+    reply("⚠️ اسکرین شاٹ لینے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔");
   }
 });
