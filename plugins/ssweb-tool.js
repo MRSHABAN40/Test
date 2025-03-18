@@ -18,18 +18,21 @@ async (conn, mek, m, { from, q, reply }) => {
 
   try {
     const screenshotUrl = `https://bk9.fun/tools/screenshot?url=${encodeURIComponent(q)}`;
+    
+    // Testing API response
+    const response = await axios.get(screenshotUrl, { responseType: 'arraybuffer' });
 
-    const imageMessage = {
-      image: { url: screenshotUrl },
-      caption: "*📸 WEB SCREENSHOT DOWNLOADER*\n\n> *© Powered By Shaban Md*",
-      contextInfo: {
-        mentionedJid: [m.sender],
-        forwardingScore: 999,
-        isForwarded: true,
-      },
-    };
+    if (!response || response.status !== 200) {
+      return reply("⚠️ اسکرین شاٹ لینے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔");
+    }
 
-    await conn.sendMessage(from, imageMessage, { quoted: m });
+    const imageBuffer = Buffer.from(response.data, 'binary');
+
+    await conn.sendMessage(from, { 
+      image: imageBuffer, 
+      caption: "*📸 WEB SCREENSHOT DOWNLOADER*\n\n> *© Powered By Shaban Md*" 
+    }, { quoted: m });
+
   } catch (error) {
     console.error("Error:", error);
     reply("⚠️ اسکرین شاٹ لینے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔");
