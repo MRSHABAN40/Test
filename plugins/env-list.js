@@ -19,7 +19,7 @@ cmd({
 async (conn, mek, m, { from, quoted, reply }) => {
     try {
         // Royal & Stylish Settings Message
-        let envSettings = `┏━━━⚙️ *SHABAN-MD SETTINGS* ⚙️━━━┓  
+        let envSettings = `⚙️*SHABAN-MD SETTINGS*⚙️
 ┃  
 ┣ 🔹 *Status View:* ${isEnabled(config.AUTO_STATUS_SEEN) ? "✅ On" : "❌ Off"}  
 ┣ 🔹 *Status Reply:* ${isEnabled(config.AUTO_STATUS_REPLY) ? "✅ On" : "❌ Off"}  
@@ -37,7 +37,7 @@ async (conn, mek, m, { from, quoted, reply }) => {
 ┣ 🔹 *Public Mode:* ${isEnabled(config.PUBLIC_MODE) ? "✅ On" : "❌ Off"}  
 ┣ 🔹 *Read Message:* ${isEnabled(config.READ_MESSAGE) ? "✅ On" : "❌ Off"}  
 ┃  
-┗━━━━━━━━━━━━━━━━━━━━━━━┛  
+┗━━━━━━━━━━━━━━━━━ 
 📝 *Description:* ${config.DESCRIPTION}`;
 
         // Send stylish image
