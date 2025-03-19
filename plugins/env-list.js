@@ -11,36 +11,36 @@ function isEnabled(value) {
 cmd({
     pattern: "env",
     alias: ["setting", "allvar"],
-    desc: "Settings of bot",
+    desc: "Displays bot settings",
     category: "menu",
     react: "⚙️",
     filename: __filename
 }, 
 async (conn, mek, m, { from, quoted, reply }) => {
     try {
-        // VIP Clean & Stylish Settings Message
-        let envSettings = `*⚙️ SHABAN-MD ENV ⚙️*
-_________________________________
-🛠 *Features & Status:*
-✅ Status View: ${isEnabled(config.AUTO_STATUS_SEEN) ? "Enabled" : "Disabled"}
-💬 Status Reply: ${isEnabled(config.AUTO_STATUS_REPLY) ? "Enabled" : "Disabled"}
-🤖 Auto Reply: ${isEnabled(config.AUTO_REPLY) ? "Enabled" : "Disabled"}
-🖼 Auto Sticker: ${isEnabled(config.AUTO_STICKER) ? "Enabled" : "Disabled"}
-🎙 Auto Voice: ${isEnabled(config.AUTO_VOICE) ? "Enabled" : "Disabled"}
-❤️ Custom Reacts: ${isEnabled(config.CUSTOM_REACT) ? "Enabled" : "Disabled"}
-🔥 Auto React: ${isEnabled(config.AUTO_REACT) ? "Enabled" : "Disabled"}
-🔗 Delete Links: ${isEnabled(config.DELETE_LINKS) ? "Enabled" : "Disabled"}
-🚫 Anti-Link: ${isEnabled(config.ANTI_LINK) ? "Enabled" : "Disabled"}
-⚠️ Anti-Bad Words: ${isEnabled(config.ANTI_BAD) ? "Enabled" : "Disabled"}
-⌨️ Auto Typing: ${isEnabled(config.AUTO_TYPING) ? "Enabled" : "Disabled"}
-🎥 Auto Recording: ${isEnabled(config.AUTO_RECORDING) ? "Enabled" : "Disabled"}
-🌐 Always Online: ${isEnabled(config.ALWAYS_ONLINE) ? "Enabled" : "Disabled"}
-📢 Public Mode: ${isEnabled(config.PUBLIC_MODE) ? "Enabled" : "Disabled"}
-👀 Read Message: ${isEnabled(config.READ_MESSAGE) ? "Enabled" : "Disabled"}
-
+        // Royal & Stylish Settings Message
+        let envSettings = `┏━━━⚙️ *SHABAN-MD SETTINGS* ⚙️━━━┓  
+┃  
+┣ 🔹 *Status View:* ${isEnabled(config.AUTO_STATUS_SEEN) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Status Reply:* ${isEnabled(config.AUTO_STATUS_REPLY) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Auto Reply:* ${isEnabled(config.AUTO_REPLY) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Auto Sticker:* ${isEnabled(config.AUTO_STICKER) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Auto Voice:* ${isEnabled(config.AUTO_VOICE) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Custom Reacts:* ${isEnabled(config.CUSTOM_REACT) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Auto React:* ${isEnabled(config.AUTO_REACT) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Delete Links:* ${isEnabled(config.DELETE_LINKS) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Anti-Link:* ${isEnabled(config.ANTI_LINK) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Anti-Bad Words:* ${isEnabled(config.ANTI_BAD) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Auto Typing:* ${isEnabled(config.AUTO_TYPING) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Auto Recording:* ${isEnabled(config.AUTO_RECORDING) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Always Online:* ${isEnabled(config.ALWAYS_ONLINE) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Public Mode:* ${isEnabled(config.PUBLIC_MODE) ? "✅ On" : "❌ Off"}  
+┣ 🔹 *Read Message:* ${isEnabled(config.READ_MESSAGE) ? "✅ On" : "❌ Off"}  
+┃  
+┗━━━━━━━━━━━━━━━━━━━━━━━┛  
 📝 *Description:* ${config.DESCRIPTION}`;
 
-        // Send message with an image
+        // Send stylish image
         await conn.sendMessage(
             from,
             {
@@ -60,7 +60,7 @@ _________________________________
             { quoted: mek }
         );
 
-        // Send an audio file
+        // Send notification audio
         await conn.sendMessage(from, {
             audio: { url: 'https://github.com/MRSHABAN40/SHABAN-MD_DATABASE/raw/refs/heads/main/Menu_Data/env.mp3' }, // Audio File
             mimetype: 'audio/mp4',
