@@ -20,7 +20,7 @@ async (conn, mek, m, { from, quoted, reply }) => {
     try {
         // Royal & Stylish Settings Message
         let envSettings = `*⚙️SHABAN-MD SETTINGS⚙️*
-┃  
+
 ┣ 🔹 *Status View:* ${isEnabled(config.AUTO_STATUS_SEEN) ? "✅ On" : "❌ Off"}  
 ┣ 🔹 *Status Reply:* ${isEnabled(config.AUTO_STATUS_REPLY) ? "✅ On" : "❌ Off"}  
 ┣ 🔹 *Auto Reply:* ${isEnabled(config.AUTO_REPLY) ? "✅ On" : "❌ Off"}  
