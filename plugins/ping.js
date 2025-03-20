@@ -12,28 +12,23 @@ cmd({
 },
 async (conn, mek, m, { from, quoted, sender, reply }) => {
     try {
-        const start = new Date().getTime();
+        const start = Date.now(); // Execution start time
 
         const reactionEmojis = ['🚛', '🚚', '🚜', '🚒', '🚐', '🛻', '🚗', '🚙', '🏎️', '🏍️'];
         const textEmojis = ['🚁', '🛸', '⚡️', '🚀', '🛩️', '🎠', '🚍', '🚔', '🚘', '🚖'];
 
         const reactionEmoji = reactionEmojis[Math.floor(Math.random() * reactionEmojis.length)];
-        let textEmoji = textEmojis[Math.floor(Math.random() * textEmojis.length)];
+        const filteredEmojis = textEmojis.filter(e => e !== reactionEmoji);
+        const textEmoji = filteredEmojis[Math.floor(Math.random() * filteredEmojis.length)];
 
-        // Ensure reaction and text emojis are different
-        while (textEmoji === reactionEmoji) {
-            textEmoji = textEmojis[Math.floor(Math.random() * textEmojis.length)];
-        }
-
-        // Send reaction using conn.sendMessage()
+        // Send reaction
         await conn.sendMessage(from, {
-            react: { text: textEmoji, key: mek.key }
+            react: { text: textEmoji, key: m.key }
         });
 
-        const end = new Date().getTime();
-        const responseTime = (end - start); // Response time in milliseconds
+        const responseTime = Date.now() - start; // Calculate response time
 
-        // VIP style speed response
+        // VIP style response
         const text = `*SHABAN-MD SERVER SPEED:* 🐦‍🔥  
 🚀 *Response Time:* ${responseTime}ms ${reactionEmoji}  
 👑 *Status:* Ultra-Fast 🦅`;
@@ -50,4 +45,3 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
         reply(`❌ *Error:* ${e.message}`);
     }
 });
-
