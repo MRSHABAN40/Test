@@ -81,54 +81,42 @@ const port = process.env.PORT || 9090;
   
   //=============================================
   
-  let firstConnect = true; // एक फ़्लैग सेट करें
-
-async function connectToWA() {
-    console.log("Connecting to WhatsApp ⏳️...");
-    const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/');
-    var { version } = await fetchLatestBaileysVersion();
-
-    const conn = makeWASocket({
-        logger: P({ level: 'silent' }),
-        printQRInTerminal: false,
-        browser: Browsers.macOS("Firefox"),
-        syncFullHistory: true,
-        auth: state,
-        version
-    });
-
-    conn.ev.on('connection.update', (update) => {
-        const { connection, lastDisconnect } = update;
-        if (connection === 'close') {
-            if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-                connectToWA();
-            }
-        } else if (connection === 'open') {
-            console.log('🧬 Installing Plugins');
-            const path = require('path');
-            fs.readdirSync("./plugins/").forEach((plugin) => {
-                if (path.extname(plugin).toLowerCase() == ".js") {
-                    require("./plugins/" + plugin);
-                }
-            });
-            console.log('Plugins installed successful ✅');
-            console.log('Bot connected to WhatsApp ✅');
-
-            if (firstConnect) { // केवल पहली बार कनेक्ट होने पर संदेश भेजें
-                let up = `*Hello there SHABAN-MD User! 👋*\n\n> Simple, Straight Forward But Loaded With Features 🎊, Meet SHABAN-MD WhatsApp Bot.\n\n *Thanks for using SHABAN-MD 🚩* \n\n> Join WhatsApp Channel :- ⤵️\n \nhttps://whatsapp.com/channel/0029VazjYjoDDmFZTZ9Ech3O\n\n- *YOUR PREFIX:* = ${prefix}\n\nDon't forget to give a star to the repo ⬇️\n\nhttps://github.com/MRSHABAN40/SHABAN-MD-V5\n\n> © Powered BY MR SHABAN 🖤`;
-                
-                conn.sendMessage(conn.user.id, { 
-                    image: { url: "https://files.catbox.moe/lb1g6f.jpg" }, 
-                    caption: up 
-                });
-
-                firstConnect = false; // अगली बार यह संदेश नहीं भेजेगा
-            }
-        }
-    });
-
-    conn.ev.on('creds.update', saveCreds);
-}
+  async function connectToWA() {
+  console.log("Connecting to WhatsApp ⏳️...");
+  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/')
+  var { version } = await fetchLatestBaileysVersion()
+  
+  const conn = makeWASocket({
+          logger: P({ level: 'silent' }),
+          printQRInTerminal: false,
+          browser: Browsers.macOS("Firefox"),
+          syncFullHistory: true,
+          auth: state,
+          version
+          })
+      
+  conn.ev.on('connection.update', (update) => {
+  const { connection, lastDisconnect } = update
+  if (connection === 'close') {
+  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+  connectToWA()
+  }
+  } else if (connection === 'open') {
+  console.log('🧬 Installing Plugins')
+  const path = require('path');
+  fs.readdirSync("./plugins/").forEach((plugin) => {
+  if (path.extname(plugin).toLowerCase() == ".js") {
+  require("./plugins/" + plugin);
+  }
+  });
+  console.log('Plugins installed successful ✅')
+  console.log('Bot connected to whatsapp ✅')
+  
+  let up = `*Hello there SHABAN-MD User! \ud83d\udc4b\ud83c\udffb* \n\n> Simple , Straight Forward But Loaded With Features \ud83c\udf8a, Meet SHABAN-MD WhatsApp Bot.\n\n *Thanks for using SHABAN-MD \ud83d\udea9* \n\n> Join WhatsApp Channel :- ⤵️\n \nhttps://whatsapp.com/channel/0029VazjYjoDDmFZTZ9Ech3O\n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/MRSHABAN40/SHABAN-MD-V5\n\n> © Powered BY MR SHABAN \ud83d\udda4`;
+    conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/lb1g6f.jpg` }, caption: up })
+  }
+  })
+  conn.ev.on('creds.update', saveCreds)
 
   //==============================
 
