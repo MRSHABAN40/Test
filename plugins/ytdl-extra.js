@@ -4,91 +4,86 @@ const { ytsearch, ytmp3, ytmp4 } = require('@dark-yasiya/yt-dl.js');
 
 // Audio
 
-cmd({
-  'pattern': "audio",
-  'alias': "audio2",
-  'desc': "To download songs.",
-  'react': '🎵',
-  'category': "download",
-  'filename': __filename
-}, async (conn, mek, m, { from, quoted, reply, q }) => {
-  try {
-    if (!q) {
-      return reply("Please provide a song name or YouTube URL.");
-    }
+cmd({ 
+    pattern: "audio", 
+    alias: ["aud", "audio1"], 
+    react: "🎶", 
+    desc: "Download YouTube song",
+    category: "main", 
+    use: '.song <Yt url or Name>', 
+    filename: __filename 
+}, 
+async (conn, mek, m, { from, prefix, quoted, q, reply }) => { 
+    try { 
+        if (!q) return await reply("❌ Please provide a YouTube URL or song name.");
 
-    const searchResults = await yts(q);
-    if (!searchResults.videos.length) {
-      return reply("No results found.");
-    }
-    
-    const video = searchResults.videos[0]; 
-    const videoUrl = video.url;
-    const videoTitle = video.title;
-    
-    let messageText = `
-   ┏┻━━━━━━━━━━━━━
-   ┃ *Shaban-MD Song Download*
-   ┗━━━━━━━━━━━━━━
-   ╭────────────────❖
-   │ ℹ️ *SHABAN-MD* 
-   │
-   │🎵 *Title:* ${videoTitle} 
-   ╰────────────────❖
-   ❖──────────────────❖
-   ╭──────────────────❖
-   │ 🛠 *Choose format:*  
-   │  
-   │ *1* - Audio File 🎶
-   │ *2* - Document File 📂
-   ╰──────────────────❖
-   ⚡ Powered by *Shaban-MD*`;
+        // Initial message
+        await reply("🎶 Downloading Audio... Please wait for *SHABAN-MD* user!");
 
-    const msg = await conn.sendMessage(from, { text: messageText }, { quoted: mek });
+        const yt = await ytsearch(q);
+        if (yt.results.length < 1) return reply("❌ No results found!");
 
-    // Fetching the audio download link from new API
-    try {
-      const apiResponse = await fetchJson(`https://bandahealimaree-api-ytdl.hf.space/api/ytmp3?url=${videoUrl}`);
-      if (!apiResponse.status || !apiResponse.download.downloadUrl) {
-        return reply("⚠️ Failed to fetch the download link.");
-      }
+        let yts = yt.results[0];  
+        let apiUrl = `https://bandahealimaree-api-ytdl.hf.space/api/ytmp3?url=${encodeURIComponent(yts.url)}`;
 
-      const downloadUrl = apiResponse.download.downloadUrl;
+        console.log("🔗 API URL:", apiUrl); // Debugging
 
-      // Listening for user response
-      conn.ev.once('messages.upsert', async (msgUpdate) => {
-        const responseMsg = msgUpdate.messages[0];
-        if (!responseMsg.message || !responseMsg.message.extendedTextMessage) return;
+        let response = await fetch(apiUrl);
+        let data = await response.json();
 
-        const selectedOption = responseMsg.message.extendedTextMessage.text.trim();
-        const contextInfo = responseMsg.message.extendedTextMessage.contextInfo || {};
+        console.log("📥 API Response:", data); // Debugging
 
-        if (contextInfo.stanzaId === msg.key.id) {
-          if (selectedOption === '1') {
-            await conn.sendMessage(from, {
-              audio: { url: downloadUrl },
-              mimetype: "audio/mpeg"
-            }, { quoted: mek });
-          } else if (selectedOption === '2') {
-            await conn.sendMessage(from, {
-              document: { url: downloadUrl },
-              mimetype: "audio/mpeg",
-              fileName: `${videoTitle}.mp3`,
-              caption: "\n*© Created by Shaban-MD*"
-            }, { quoted: mek });
-          } else {
-            reply("❌ Invalid option! Please select *1* or *2*.");
-          }
+        if (!data.status || !data.download || !data.download.downloadUrl) {
+            return reply("❌ Failed to fetch the audio. Please try again later.");
         }
-      });
 
-    } catch (err) {
-      reply("⚠️ Failed to fetch the download link.");
-      console.error(err);
+        let ytmsg = `🎶 *SHABAN-MD MUSIC DOWNLOADER* 🎶
+
+📀 *Title:* ${data.download.title}
+⏳ *Duration:* ${data.result.duration} sec
+🔗 *YouTube Link:* ${yts.url}
+🕒 *Expires In:* ${data.download.expiresIn}
+
+> *© Powered By Shaban-MD ♡*
+
+Please select an option below:
+1. Audio File
+2. Document File
+3. Cancel`;
+
+        // Thumbnail URL selection
+        let thumbnailUrl = data.result.thumbnail[0]?.url || yts.thumbnail;
+
+        // Generate GIF Thumbnail
+        let gifThumbnail = await getGifThumbnail(thumbnailUrl);
+        if (gifThumbnail) {
+            await conn.sendMessage(from, {
+                video: { url: gifThumbnail },
+                mimetype: "video/mp4",
+                caption: ytmsg,
+                gifPlayback: true
+            }, { quoted: mek });
+        } else {
+            // If GIF fails, send normal image
+            await conn.sendMessage(from, { 
+                image: { url: thumbnailUrl }, 
+                caption: ytmsg 
+            }, { quoted: mek });
+        }
+
+        console.log("🎼 Sending audio from URL:", data.download.downloadUrl); 
+
+        // Send audio file (as document)
+        await conn.sendMessage(from, { 
+            document: { url: data.download.downloadUrl }, 
+            mimetype: "audio/mpeg",
+            fileName: `${data.download.title}.mp3`
+        }, { quoted: mek });
+
+        console.log("✅ Audio sent successfully!");
+
+    } catch (e) {
+        console.log("❌ Error:", e); 
+        reply("❌ An error occurred. Please try again later.");
     }
-
-  } catch (error) {
-    console.error(error);
-    reply("⚠️ An error occurred.");
-  }
 });
