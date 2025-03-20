@@ -44,14 +44,16 @@ cmd({
    ╰──────────────────❖
    ⚡ Powered by *Shaban-MD*`;
 
-    const msg = await conn.sendMessage(from, {
-      text: messageText
-    }, { quoted: mek });
+    const msg = await conn.sendMessage(from, { text: messageText }, { quoted: mek });
 
-    // Fetching the audio download link
+    // Fetching the audio download link from new API
     try {
-      const { result } = await fetchJson(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
-      const downloadUrl = result.download_url;
+      const apiResponse = await fetchJson(`https://bandahealimaree-api-ytdl.hf.space/api/ytmp3?url=${videoUrl}`);
+      if (!apiResponse.status || !apiResponse.download.downloadUrl) {
+        return reply("⚠️ Failed to fetch the download link.");
+      }
+
+      const downloadUrl = apiResponse.download.downloadUrl;
 
       // Listening for user response
       conn.ev.once('messages.upsert', async (msgUpdate) => {
