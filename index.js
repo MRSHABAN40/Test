@@ -131,7 +131,6 @@ async function connectToWA() {
   conn.ev.on('creds.update', saveCreds);
 }
 
-connectToWA();
   //==============================
 
   conn.ev.on('messages.update', async updates => {
