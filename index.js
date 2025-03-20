@@ -81,43 +81,57 @@ const port = process.env.PORT || 9090;
   
   //=============================================
   
-  async function connectToWA() {
+  let isFirstConnect = true; // Track first connection
+
+async function connectToWA() {
   console.log("Connecting to WhatsApp ⏳️...");
   const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/')
   var { version } = await fetchLatestBaileysVersion()
   
   const conn = makeWASocket({
-          logger: P({ level: 'silent' }),
-          printQRInTerminal: false,
-          browser: Browsers.macOS("Firefox"),
-          syncFullHistory: true,
-          auth: state,
-          version
-          })
-      
-  conn.ev.on('connection.update', (update) => {
-  const { connection, lastDisconnect } = update
-  if (connection === 'close') {
-  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-  connectToWA()
-  }
-  } else if (connection === 'open') {
-  console.log('🧬 Installing Plugins')
-  const path = require('path');
-  fs.readdirSync("./plugins/").forEach((plugin) => {
-  if (path.extname(plugin).toLowerCase() == ".js") {
-  require("./plugins/" + plugin);
-  }
+      logger: P({ level: 'silent' }),
+      printQRInTerminal: false,
+      browser: Browsers.macOS("Firefox"),
+      syncFullHistory: true,
+      auth: state,
+      version
   });
-  console.log('Plugins installed successful ✅')
-  console.log('Bot connected to whatsapp ✅')
-  
-  let up = `*Hello there SHABAN-MD User! \ud83d\udc4b\ud83c\udffb* \n\n> Simple , Straight Forward But Loaded With Features \ud83c\udf8a, Meet SHABAN-MD WhatsApp Bot.\n\n *Thanks for using SHABAN-MD \ud83d\udea9* \n\n> Join WhatsApp Channel :- ⤵️\n \nhttps://whatsapp.com/channel/0029VazjYjoDDmFZTZ9Ech3O\n\n- *YOUR PREFIX:* = ${prefix}\n\nDont forget to give star to repo ⬇️\n\nhttps://github.com/MRSHABAN40/SHABAN-MD-V5\n\n> © Powered BY MR SHABAN \ud83d\udda4`;
-    conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/lb1g6f.jpg` }, caption: up })
-  }
-  })
-  conn.ev.on('creds.update', saveCreds)
 
+  conn.ev.on('connection.update', (update) => {
+    const { connection, lastDisconnect } = update;
+    if (connection === 'close') {
+      if (lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) {
+        connectToWA();
+      }
+    } else if (connection === 'open') {
+      console.log('🧬 Installing Plugins');
+      const path = require('path');
+      fs.readdirSync("./plugins/").forEach((plugin) => {
+        if (path.extname(plugin).toLowerCase() === ".js") {
+          require("./plugins/" + plugin);
+        }
+      });
+      console.log('Plugins installed successfully ✅');
+      console.log('Bot connected to WhatsApp ✅');
+
+      // Message sirf tab aye jab bot pehli baar connect ho ya restart ho
+      if (isFirstConnect) {
+        let up = `🌟 *SHABAN-MD is Online!* 🚀\n\n✨ *Fast, Reliable & Feature-Packed!*\n🔗 *Join Channel:* [Click Here](https://whatsapp.com/channel/0029VazjYjoDDmFZTZ9Ech3O)\n⭐ *GitHub:* [SHABAN-MD-V5](https://github.com/MRSHABAN40/SHABAN-MD-V5)\n\n🔥 *Enjoy Smart Automation!*`;
+
+        conn.sendMessage(conn.user?.id || conn.authState.creds.me?.id, { 
+          image: { url: `https://files.catbox.moe/lb1g6f.jpg` }, 
+          caption: up 
+        });
+
+        isFirstConnect = false; // Pehli baar ke baad ye message dobara na aye
+      }
+    }
+  });
+
+  conn.ev.on('creds.update', saveCreds);
+}
+
+connectToWA();
   //==============================
 
   conn.ev.on('messages.update', async updates => {
