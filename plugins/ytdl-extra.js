@@ -4,64 +4,89 @@ const { ytsearch, ytmp3, ytmp4 } = require('@dark-yasiya/yt-dl.js');
 
 // Audio
 
-cmd({ 
-     pattern: "audio", 
-     alias: ["aud", "audio1"], 
-     react: "🎶", 
-     desc: "Download Youtube song",
-     category: "main", 
-     use: '.song < Yt url or Name >', 
-     filename: __filename }, 
-     async (conn, mek, m, { from, prefix, quoted, q, reply }) => 
-     
-     { try { if (!q) return await reply("Please provide a YouTube URL or song name.");
+cmd({
+  'pattern': "audio",
+  'alias': "audio2",
+  'desc': "To download songs.",
+  'react': '🎵',
+  'category': "download",
+  'filename': __filename
+}, async (conn, mek, m, { from, quoted, reply, q }) => {
+  try {
+    if (!q) {
+      return reply("Please provide a song name or YouTube URL.");
+    }
 
-const yt = await ytsearch(q);
-    if (yt.results.length < 1) return reply("No results found!");
-    
-    let yts = yt.results[0];  
-    let apiUrl = `https://apis.davidcyriltech.my.id/youtube/mp3?url=${encodeURIComponent(yts.url)}`;
-    
-    let response = await fetch(apiUrl);
-    let data = await response.json();
-    
-    if (data.status !== 200 || !data.success || !data.result.downloadUrl) {
-        return reply("Failed to fetch the audio. Please try again later.");
+    const searchResults = await yts(q);
+    if (!searchResults.videos.length) {
+      return reply("No results found.");
     }
     
-    let ytmsg = `╭━━━〔 *SHABAN-MD* 〕━━━┈⊷
-┃▸╭───────────
-┃▸┃๏ *MUSIC DOWNLOADER*
-┃▸└───────────···๏
-╰────────────────┈⊷
-╭━━❐━⪼
-┇๏ *Tital* -  ${yts.title}
-┇๏ *Duration* - ${yts.timestamp}
-┇๏ *Views* -  ${yts.views}
-┇๏ *Author* -  ${yts.author.name} 
-┇๏ *Link* -  ${yts.url}
-╰━━❑━⪼
-> *© Pᴏᴡᴇʀᴇᴅ Bʏ Sʜᴀʙᴀɴ-MD ♡*`;
-
-
-
-// Send song details
-    await conn.sendMessage(from, { image: { url: data.result.image || '' }, caption: ytmsg }, { quoted: mek });
+    const video = searchResults.videos[0]; 
+    const videoUrl = video.url;
+    const videoTitle = video.title;
     
-    // Send audio file
-    await conn.sendMessage(from, { audio: { url: data.result.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: mek });
-    
-    // Send document file
-    await conn.sendMessage(from, { 
-        document: { url: data.result.downloadUrl }, 
-        mimetype: "audio/mpeg", 
-        fileName: `${data.result.title}.mp3`, 
-        caption: `> *© Pᴏᴡᴇʀᴇᴅ Bʏ Sʜᴀʙᴀɴ-MD ♡*`
+    let messageText = `
+   ┏┻━━━━━━━━━━━━━
+   ┃ *Shaban-MD Song Download*
+   ┗━━━━━━━━━━━━━━
+   ╭────────────────❖
+   │ ℹ️ *SHABAN-MD* 
+   │
+   │🎵 *Title:* ${videoTitle} 
+   ╰────────────────❖
+   ❖──────────────────❖
+   ╭──────────────────❖
+   │ 🛠 *Choose format:*  
+   │  
+   │ *1* - Audio File 🎶
+   │ *2* - Document File 📂
+   ╰──────────────────❖
+   ⚡ Powered by *Shaban-MD*`;
+
+    const msg = await conn.sendMessage(from, {
+      text: messageText
     }, { quoted: mek });
 
-} catch (e) {
-    console.log(e);
-    reply("An error occurred. Please try again later.");
-}
+    // Fetching the audio download link
+    try {
+      const { result } = await fetchJson(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
+      const downloadUrl = result.download_url;
 
+      // Listening for user response
+      conn.ev.once('messages.upsert', async (msgUpdate) => {
+        const responseMsg = msgUpdate.messages[0];
+        if (!responseMsg.message || !responseMsg.message.extendedTextMessage) return;
+
+        const selectedOption = responseMsg.message.extendedTextMessage.text.trim();
+        const contextInfo = responseMsg.message.extendedTextMessage.contextInfo || {};
+
+        if (contextInfo.stanzaId === msg.key.id) {
+          if (selectedOption === '1') {
+            await conn.sendMessage(from, {
+              audio: { url: downloadUrl },
+              mimetype: "audio/mpeg"
+            }, { quoted: mek });
+          } else if (selectedOption === '2') {
+            await conn.sendMessage(from, {
+              document: { url: downloadUrl },
+              mimetype: "audio/mpeg",
+              fileName: `${videoTitle}.mp3`,
+              caption: "\n*© Created by Shaban-MD*"
+            }, { quoted: mek });
+          } else {
+            reply("❌ Invalid option! Please select *1* or *2*.");
+          }
+        }
+      });
+
+    } catch (err) {
+      reply("⚠️ Failed to fetch the download link.");
+      console.error(err);
+    }
+
+  } catch (error) {
+    console.error(error);
+    reply("⚠️ An error occurred.");
+  }
 });
