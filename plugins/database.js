@@ -175,8 +175,8 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 // AUTO_VIEW_STATUS COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "auto_status_seen",
-    alias: ["statusseen"],
+    pattern: "status_view",
+    alias: ["auto_status_seen"],
     desc: "Enable or disable auto-viewing of statuses",
     category: "settings",
     filename: __filename
@@ -378,7 +378,7 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 //   AUTO-REACT COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "heart_react",
+    pattern: "custom_reacts",
     alias: ["heartreact","dillreact"],
     desc: "Enable or disable the autoreact feature",
     category: "settings",
@@ -428,7 +428,7 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 //  STATUS-REPLY COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "status_replay",
+    pattern: "status_reply",
     alias: ["autostatusreply"],
     desc: "enable or disable status-reply.",
     category: "settings",

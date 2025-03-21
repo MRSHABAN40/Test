@@ -35,7 +35,8 @@ async (conn, mek, m, { from, quoted, reply }) => {
 ┣ 🔹 *Auto Recording:* ${isEnabled(config.AUTO_RECORDING) ? "On" : "Off"}  
 ┣ 🔹 *Always Online:* ${isEnabled(config.ALWAYS_ONLINE) ? "On" : "Off"}  
 ┣ 🔹 *Public Mode:* ${isEnabled(config.PUBLIC_MODE) ? "On" : "Off"}  
-┣ 🔹 *Read Message:* ${isEnabled(config.READ_MESSAGE) ? "On" : "Off"}  
+┣ 🔹 *Read Message:* ${isEnabled(config.READ_MESSAGE) ? "On" : "Off"} 
+┣ 🔹 *Status React:* ${isEnabled(config.AUTO_STATUS_REACT) ? "on" : "off"}
 ┃  
 ┗━━━━━━━━━━━━━━━━━ 
 📝 *Description:* ${config.DESCRIPTION}`;
