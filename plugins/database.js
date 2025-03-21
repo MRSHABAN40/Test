@@ -61,8 +61,8 @@ cmd({
   reply("*_SHABAN-MD STARTED NOW...🚀_*"); 
 });
 
-
 //========mode
+
 cmd({
     pattern: "mode",
     desc: "Set bot mode to private or public.",
@@ -71,7 +71,7 @@ cmd({
 }, async (conn, mek, m, { from, args, isOwner, reply }) => {
     if (!isOwner) return reply("*📛 Only the owner can use this command!*");
 
-    // Si aucun argument n'est fourni, afficher le mode actuel et l'usage
+    // Agar koi argument nahi diya gaya toh current mode show karega
     if (!args[0]) {
         return reply(`📌 Current mode: *${config.MODE}*\n\nUsage: .mode private OR .mode public`);
     }
@@ -80,20 +80,31 @@ cmd({
 
     if (modeArg === "private") {
         config.MODE = "private";
-        return reply("*_BOT MODE IS NOW SET TO PRIVATE ✅_*.");
-    } else if (modeArg === "public") {
+        return reply("*✅ BOT MODE SET TO PRIVATE: Only the owner can use the bot now.*");
+    } 
+    
+    else if (modeArg === "public") {
         config.MODE = "public";
-        return reply("*_BOT MODE IS NOW SET TO PUBLIC ✅_*.")
-        const {exec} = require("child_process")
-reply("*_DATABASE UPDATE SHABAN-MD RESTARTING NOW...🚀_*")
-await sleep(1500)
-exec("pm2 restart all")
-reply("*_SHABAN-MD STARTED NOW...🚀_*");
-    } else {
+        reply("*✅ BOT MODE SET TO PUBLIC: Everyone can use the bot now.*");
+
+        const { exec } = require("child_process");
+
+        reply("*🔄 DATABASE UPDATE SHABAN-MD RESTARTING NOW...🚀*");
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Sleep function
+        
+        exec("pm2 restart all", (error, stdout, stderr) => {
+            if (error) {
+                return reply(`❌ Error restarting bot: ${error.message}`);
+            }
+            reply("*✅ SHABAN-MD SUCCESSFULLY RESTARTED! BOT IS NOW IN PUBLIC MODE 🚀*");
+        });
+
+    } 
+    
+    else {
         return reply("❌ Invalid mode. Please use `.mode private` or `.mode public`.");
     }
 });
-
 
 //--------------------------------------------
 //  AUTO-REPLY COMMANDS
