@@ -55,10 +55,10 @@ cmd({
   fs.writeFileSync('./config.json', JSON.stringify(config, null, 2)); 
   reply(`*Prefix changed to:* ${newPrefix}`); 
   const { exec } = require("child_process"); 
-  reply("*_DATABASE UPDATE SILENT-SOBX-MD RESTARTING NOW...🚀_*"); 
+  reply("*_DATABASE UPDATE SHABAN-MD RESTARTING NOW...🚀_*"); 
   await sleep(1500); 
   exec("pm2 restart all"); 
-  reply("*_SILENT-SOBX-MD STARTED NOW...🚀_*"); 
+  reply("*_SHABAN-MD STARTED NOW...🚀_*"); 
 });
 
 
@@ -85,10 +85,10 @@ cmd({
         config.MODE = "public";
         return reply("*_BOT MODE IS NOW SET TO PUBLIC ✅_*.")
         const {exec} = require("child_process")
-reply("*_DATABASE UPDATE SILENT-SOBX-MD RESTARTING NOW...🚀_*")
+reply("*_DATABASE UPDATE SHABAN-MD RESTARTING NOW...🚀_*")
 await sleep(1500)
 exec("pm2 restart all")
-reply("*_SILENT-SOBX-MD STARTED NOW...🚀_*");
+reply("*_SHABAN-MD STARTED NOW...🚀_*");
     } else {
         return reply("❌ Invalid mode. Please use `.mode private` or `.mode public`.");
     }
@@ -99,8 +99,8 @@ reply("*_SILENT-SOBX-MD STARTED NOW...🚀_*");
 //  AUTO-REPLY COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "fake_typing",
-    alias: ["faketyping"],
+    pattern: "auto_typing",
+    alias: ["autotyping"],
     desc: "enable or disable auto-reply.",
     category: "settings",
     filename: __filename
@@ -111,10 +111,10 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     const status = args[0]?.toLowerCase();
     // Check the argument for enabling or disabling the anticall feature
     if (args[0] === "on") {
-        config.FAKE_TYPING = "true";
+        config.AUTO_TYPING = "true";
         return reply("*_FAKETYPING  IS NOW ENABLED._*☑️");
     } else if (args[0] === "off") {
-        config.FAKE_TYPING = "false";
+        config.AUTO_TYPING = "false";
         return reply("*_FAKETYPING FEATURE IS NOW DISABLED._*❌");
     } else {
         return reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: . ғᴀᴋᴇ_ᴛʏᴘɪɴɢ ᴏɴ*`);
@@ -150,8 +150,8 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 //  AUTO-REPLY COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "fake_reacording",
-    alias: ["fake recording"],
+    pattern: "auto_reacording",
+    alias: ["autorecording"],
     desc: "enable or disable auto-reply.",
     category: "settings",
     filename: __filename
@@ -162,10 +162,10 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     const status = args[0]?.toLowerCase();
     // Check the argument for enabling or disabling the anticall feature
     if (args[0] === "on") {
-        config.FAKE_REACORDING = "true";
+        config.AUTO_RECORDING = "true";
         return reply("*_FAKEREACORDING IS NOW ENABLED._*☑️");
     } else if (args[0] === "off") {
-        config.FAKE_REACORDING = "false";
+        config.AUTO_RECORDING = "false";
         return reply("*_FAKEREACORDING FEATURE IS NOW DISABLED._*❌");
     } else {
         return reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: . ғᴀᴋᴇ_ʀᴇᴀᴄᴏʀᴅɪɴɢ ᴏɴ*`);
@@ -175,8 +175,8 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 // AUTO_VIEW_STATUS COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "auto_read_status",
-    alias: ["autostatusview"],
+    pattern: "auto_status_seen",
+    alias: ["statusseen"],
     desc: "Enable or disable auto-viewing of statuses",
     category: "settings",
     filename: __filename
@@ -187,10 +187,10 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     const status = args[0]?.toLowerCase();
     // Default value for AUTO_VIEW_STATUS is "false"
     if (args[0] === "on") {
-        config.AUTO_READ_STATUS = "true";
+        config.AUTO_STATUS_SEEN = "true";
         return reply("*_AUTOREADSTATUS IS NOW ENABLED._*☑️");
     } else if (args[0] === "off") {
-        config.AUTO_READ_STATUS = "false";
+        config.AUTO_STATUS_SEEN = "false";
         return reply("*_AUTOREADSTATUS IS NOW DISABLED._*❌");
     } else {
         return reply(`*🫟 ᴇxᴀᴍᴘʟᴇ:  .ᴀᴜᴛᴏ-sᴇᴇɴ ᴏɴ*`);
@@ -201,7 +201,7 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 //--------------------------------------------
 cmd({
     pattern: "status_react",
-    alias: ["statusreaction"],
+    alias: ["statusreact"],
     desc: "Enable or disable auto-liking of statuses",
     category: "settings",
     filename: __filename
@@ -210,12 +210,12 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     if (!isOwner) return reply("*📛 ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!*");
 
     const status = args[0]?.toLowerCase();
-    // Default value for AUTO_LIKE_STATUS is "false"
+    // Default value for AUTO_STATUS_REACT is "false"
     if (args[0] === "on") {
-        config.AUTO_LIKE_STATUS = "true";
+        config.AUTO_STATUS_REACT = "true";
         return reply("*_AUTOLIKESTATUS IS NOW ENABLED._*☑️");
     } else if (args[0] === "off") {
-        config.AUTO_LIKE_STATUS = "false";
+        config.AUTO_STATUS_REACT = "false";
         return reply("*_AUTOLIKESTATUS IS NOW DISABLED._*❌");
     } else {
         return reply(`Example: . status_react on`);
@@ -252,7 +252,7 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 //--------------------------------------------
 cmd({
     pattern: "anti_bad",
-    alias: ["antibadword"],
+    alias: ["antibad"],
     desc: "enable or disable antibad.",
     category: "settings",
     filename: __filename
@@ -390,10 +390,10 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     const status = args[0]?.toLowerCase();
     // Check the argument for enabling or disabling the anticall feature
     if (args[0] === "on") {
-        config.HEART_REACT = "true";
+        config.CUSTOM_REACT = "true";
         await reply("*_HEARTREACT FEATURE IS NOW ENABLED._*☑️");
     } else if (args[0] === "off") {
-        config.HEART_REACT = "false";
+        config.CUSTOM_REACT = "false";
         await reply("*_HEARTREACT FEATURE IS NOW DISABLED._*❌");
     } else {
         await reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: .ʜᴇᴀʀᴛ_ʀᴇᴀᴄᴛ ᴏɴ*`);
@@ -403,8 +403,8 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 //   AUTO-REACT COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "owner_react",
-    alias: ["ownerreact","oreact"],
+    pattern: "anti_link",
+    alias: ["antilink","anti"],
     desc: "Enable or disable the autoreact feature",
     category: "settings",
     filename: __filename
@@ -415,20 +415,20 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     const status = args[0]?.toLowerCase();
     // Check the argument for enabling or disabling the anticall feature
     if (args[0] === "on") {
-        config.OWNER_REACT = "true";
+        config.ANTI_LINK = "true";
         await reply("*_OWNERREACT FEATURE IS NOW ENABLED._*☑️");
     } else if (args[0] === "off") {
-        config.OWNER_REACT = "false";
-        await reply("*_OWNERREACT FEATURE IS NOW DISABLED._*❌");
+        config.ANTI_LINK = "false";
+        await reply("*_ANTI_LINK FEATURE IS NOW DISABLED._*❌");
     } else {
-        await reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: .ᴏᴡɴᴇʀ_ʀᴇᴀᴄᴛ ᴏɴ*`);
+        await reply(`*🫟 ᴇxᴀᴍᴘʟᴇ: .Antilink_on/off*`);
     }
 });
 //--------------------------------------------
 //  STATUS-REPLY COMMANDS
 //--------------------------------------------
 cmd({
-    pattern: "auto_reply_status",
+    pattern: "status_replay",
     alias: ["autostatusreply"],
     desc: "enable or disable status-reply.",
     category: "settings",
@@ -440,10 +440,10 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
     const status = args[0]?.toLowerCase();
     // Check the argument for enabling or disabling the anticall feature
     if (args[0] === "on") {
-        config.AUTO_REPLY_STATUS = "true";
+        config.AUTO_STATUS_REPLY = "true";
         return reply("*_STATUS-REPLY FEATURE IS NOW ENABLED._*☑️");
     } else if (args[0] === "off") {
-        config.AUTO_REPLY_STATUS = "false";
+        config.AUTO_STATUS_REPLY = "false";
         return reply("*_STATUS-REPLY FEATURE IS NOW DISABLED._*❌");
     } else {
         return reply(`*🫟 ᴇxᴀᴍᴘʟᴇ:  .ᴀᴜᴛᴏ_ʀᴇᴘʟʏ_sᴛᴀᴛᴜs ᴏɴ*`);
